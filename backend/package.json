@@ -1,27 +1,63 @@
 {
   
   "name": "teamtask",
+  
   "version": "1.0.0",
+  
   "description": "fullstack app maybe if i finish this. First proper project to learn development",
+  
   "main": "index.js",
+  
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+  
+    
+  "start": "node index.js",
+  
+    
+  "dev": "nodemon index.js",
+  
+    
+  "test": "echo \"Error: no test specified\" && exit 1"
+  
   },
+  
   "keywords": [
-    "Team",
-    "task"
+  
+    
+  "Team",
+  
+    
+  "task"
+  
   ],
+  
   "author": "Sohail Ijaz",
+  
   "license": "ISC",
+  
   "dependencies": {
-    "cors": "^2.8.5",
-    "dotenv": "^17.2.1",
-    "express": "^5.1.0",
-    "mongoose": "^8.17.1"
+  
+    
+  "cors": "^2.8.5",
+  
+    
+  "dotenv": "^17.2.1",
+  
+    
+  "ejs": "^3.1.10",
+  
+    
+  "express": "^5.1.0",
+  
+    
+  "mongoose": "^8.17.1"
+  
   },
+  
   "devDependencies": {
-    "nodemon": "^3.1.10"
+  
+    
+  "nodemon": "^3.1.10"
+  
   }
 }
