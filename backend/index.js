@@ -4,10 +4,22 @@ import express from 'express'
 import mongoose from 'mongoose'
 import userRouter from './routes/users.js'
 import bodyParser from 'body-parser'
+import session from 'express-session'
 const app = express()
 app.set('view engine', 'ejs')
 app.use(bodyParser.json())
 app.use(express.urlencoded())
+app.use(session({
+    secret: process.env.SECRET_KEY,
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: false }
+}))
+
+
+
+
+
 
 app.get('/', (req, res) => {
     res.render('landing-page.ejs')
