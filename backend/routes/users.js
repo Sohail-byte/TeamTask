@@ -2,15 +2,8 @@ import express from 'express'
 import User from '../models/user.js'
 import bcrypt from "bcrypt"
 import session from 'express-session'
--session
 const userRouter = express.Router()
 
-function isAuthenticated(req, res, next){
-    if(req.session.userId){
-        return next()
-    }
-    res.status(401).json({ error: 'Unauthorized' })
-}
 //making routes for:
 //login
 //signup
@@ -68,11 +61,68 @@ userRouter.post('/signup', async(req, res)=>{
 
 //login page
 userRouter.get('/login', (req, res) =>{
-    res.render('user-forms/login.ejs')    
+    res.render('user-forms/login.ejs', {error: null})    
 } )
 
-//posting the data here
+userRouter.post('/login', async (req, res) => {
+    let {email, password} = req.body
+    console.log(email, password)
+    try{
+    // const userFound = await User.find({email: email})
+    // console.log(userFound)
 
+    // // const passMatch = await bcrypt.compare(password, )
+
+        const userFound = await User.findOne({ email: email })
+
+        if (!userFound) {
+            return res.status(400).render('user-forms/login', {error: 'user not found'});
+        }
+
+        const passMatch = await bcrypt.compare(password, userFound.password);
+        if (!passMatch) {
+            return res.status(400).render('user-forms/login', {error: 'invalid password'})
+        }
+
+            req.session.userId = userFound._id
+        res.redirect('/user/dashboard')
+
+
+
+    
+    // if (userFound.email === email && passMatch){
+    
+    // } else if(!userFound){
+    //     res.render('user-forms/login', {error: 'User not Found'})
+    // } else{
+    //      res.render('user-forms/login', {error: 'Username or email incorrect'})
+    // }
+    } catch(e){
+        console.log(e)
+        res.status(500).json({msg: `${e}`})
+    }
+    
+})
+
+
+
+
+
+
+
+
+
+
+
+//logout route
+userRouter.get('/logout', async (req, res) => {
+    try{
+    req.session.destroy()
+    res.redirect('/users/login')
+}catch(e){
+    console.log(e)
+}
+})
 
 
 

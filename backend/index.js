@@ -5,6 +5,7 @@ import mongoose from 'mongoose'
 import userRouter from './routes/users.js'
 import bodyParser from 'body-parser'
 import session from 'express-session'
+import isAuthenticated from './utils/middleware/authentication.js'
 const app = express()
 app.set('view engine', 'ejs')
 app.use(bodyParser.json())
@@ -27,7 +28,7 @@ app.get('/', (req, res) => {
 
 app.use('/users', userRouter)
 
-app.get('/user/dashboard', (req, res) => {
+app.get('/user/dashboard', isAuthenticated, (req, res) => {
     res.render('dashboard.ejs')
 })
 
