@@ -4,16 +4,12 @@ import bcrypt from "bcrypt"
 import session from 'express-session'
 const userRouter = express.Router()
 
-//making routes for:
-//login
-//signup
-
 //signup page
 //get request to load the signup page (signup.ejs)
 userRouter.get('/signup', (req, res) =>{
     res.render('user-forms/signup.ejs', {error: null});
     })
-//post route for making the user
+//post route for making new user
 userRouter.post('/signup', async(req, res)=>{
     const {userName, email, password} = req.body
     try{
@@ -42,7 +38,7 @@ userRouter.post('/signup', async(req, res)=>{
         await newUser.save()
         req.session.userId = newUser._id
         // res.send('user successfully')    
-        res.redirect('/user/dashboard')
+        res.redirect('/dashboard')
     }catch(e){
         console.log(e)
         res.status(500).json({msg: `${e}`})

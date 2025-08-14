@@ -26,9 +26,9 @@ app.get('/', (req, res) => {
     res.render('landing-page.ejs')
 })
 
-app.use('/users', userRouter)
+app.use(userRouter)
 
-app.get('/user/dashboard', isAuthenticated, (req, res) => {
+app.get('/dashboard', isAuthenticated, (req, res) => {
     res.render('dashboard.ejs')
 })
 
