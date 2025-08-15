@@ -1,7 +1,7 @@
 import express from 'express'
 import User from '../models/user.js'
 import bcrypt from "bcrypt"
-import session from 'express-session'
+import jwt from 'jsonwebtoken'
 const userRouter = express.Router()
 
 //signup page
@@ -12,8 +12,9 @@ userRouter.get('/signup', (req, res) =>{
 //post route for making new user
 userRouter.post('/signup', async(req, res)=>{
     const {userName, email, password} = req.body
+    const lowerCaseUsername = userName.toLowerCase()
     try{
-         const existingUserName = await User.findOne({ userName });
+         const existingUserName = await User.findOne({ userName: lowerCaseUsername });
          const existingUserEmail = await User.findOne({ email });
 //check if the email already exists or username
 // Render the form again with error
@@ -30,14 +31,16 @@ userRouter.post('/signup', async(req, res)=>{
     
         const hashedPassword = await bcrypt.hash(password, 10)
         const newUser = new User({
-            userName: userName,
+            userName: lowerCaseUsername,
             email: email,
             password: hashedPassword,
             dateCreated: new Date()
         })
         await newUser.save()
-        req.session.userId = newUser._id
-        // res.send('user successfully')    
+        const userId = await User.findOne({userName})._id
+        const token = jwt.sign({userId}, process.env.SECRET_KEY)
+        // console.log(token)
+        res.cookie('token', token, {maxAge: 86400000})
         res.redirect('/dashboard')
     }catch(e){
         console.log(e)
@@ -49,19 +52,20 @@ userRouter.post('/signup', async(req, res)=>{
 
 
 
-
-
-
-
-
-
 //login page
 userRouter.get('/login', (req, res) =>{
-    res.render('user-forms/login.ejs', {error: null})    
+    if(req.cookies.token){
+        res.redirect('/dashboard')
+    }else{
+        res.render('user-forms/login.ejs', {error: null})
+    }
+    
+     
 } )
 
 userRouter.post('/login', async (req, res) => {
     let {email, password} = req.body
+    
     console.log(email, password)
     try{
     // const userFound = await User.find({email: email})
@@ -80,19 +84,11 @@ userRouter.post('/login', async (req, res) => {
             return res.status(400).render('user-forms/login', {error: 'invalid password'})
         }
 
-            req.session.userId = userFound._id
-        res.redirect('/user/dashboard')
+        const userId = userFound._id
+        const token = jwt.sign({userId}, process.env.SECRET_KEY)
+        res.cookie('token', token, {maxAge: 86400000})
+        res.redirect('/dashboard')
 
-
-
-    
-    // if (userFound.email === email && passMatch){
-    
-    // } else if(!userFound){
-    //     res.render('user-forms/login', {error: 'User not Found'})
-    // } else{
-    //      res.render('user-forms/login', {error: 'Username or email incorrect'})
-    // }
     } catch(e){
         console.log(e)
         res.status(500).json({msg: `${e}`})
@@ -113,8 +109,8 @@ userRouter.post('/login', async (req, res) => {
 //logout route
 userRouter.get('/logout', async (req, res) => {
     try{
-    req.session.destroy()
-    res.redirect('/users/login')
+    res.clearCookie('token')
+    res.redirect('/login')
 }catch(e){
     console.log(e)
 }

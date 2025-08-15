@@ -4,19 +4,19 @@ import express from 'express'
 import mongoose from 'mongoose'
 import userRouter from './routes/users.js'
 import bodyParser from 'body-parser'
-import session from 'express-session'
+import cookieParser from 'cookie-parser'
 import isAuthenticated from './utils/middleware/authentication.js'
 const app = express()
 app.set('view engine', 'ejs')
 app.use(bodyParser.json())
 app.use(express.urlencoded())
-app.use(session({
-    secret: process.env.SECRET_KEY,
-    resave: false,
-    saveUninitialized: false,
-    cookie: { secure: false }
-}))
-
+// app.use(session({
+//     secret: process.env.SECRET_KEY,
+//     resave: false,
+//     saveUninitialized: false,
+//     cookie: { secure: false }
+// }))
+app.use(cookieParser())
 
 
 
