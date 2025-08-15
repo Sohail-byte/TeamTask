@@ -2,6 +2,7 @@ import express from 'express'
 import User from '../models/user.js'
 import bcrypt from "bcrypt"
 import jwt from 'jsonwebtoken'
+import { createTokenPayload } from '../utils/auth.js'
 const userRouter = express.Router()
 
 //signup page
@@ -38,7 +39,7 @@ userRouter.post('/signup', async(req, res)=>{
         })
         await newUser.save()
         const userId = await User.findOne({userName})._id
-        const token = jwt.sign({userId}, process.env.SECRET_KEY)
+        const token = createTokenPayload({userId})
         // console.log(token)
         res.cookie('token', token, {maxAge: 86400000})
         res.redirect('/dashboard')
@@ -64,15 +65,11 @@ userRouter.get('/login', (req, res) =>{
 } )
 
 userRouter.post('/login', async (req, res) => {
+    //check email and password type
     let {email, password} = req.body
     
     console.log(email, password)
     try{
-    // const userFound = await User.find({email: email})
-    // console.log(userFound)
-
-    // // const passMatch = await bcrypt.compare(password, )
-
         const userFound = await User.findOne({ email: email })
 
         if (!userFound) {
@@ -85,7 +82,7 @@ userRouter.post('/login', async (req, res) => {
         }
 
         const userId = userFound._id
-        const token = jwt.sign({userId}, process.env.SECRET_KEY)
+        const token = createTokenPayload({userId})
         res.cookie('token', token, {maxAge: 86400000})
         res.redirect('/dashboard')
 
