@@ -26,7 +26,12 @@ const userSchema = new mongoose.Schema({
     },
     dateCreated: {
         type: String,
+    },
+    emailValidated:{
+        type: Boolean,
+        default: false
     }
+    
 })
 
 const User = mongoose.model('User', userSchema)
