@@ -39,10 +39,16 @@ userRouter.post('/signup', async(req, res)=>{
         })
         await newUser.save()
         const userId = await User.findOne({userName})._id
-        const token = createTokenPayload({userId})
+        // const token = createTokenPayload({userId})
+
+        
+
+
         // console.log(token)
-        res.cookie('token', token, {maxAge: 86400000})
-        res.redirect('/dashboard')
+        // res.cookie('token', token, {maxAge: 86400000})
+        // res.redirect('/dashboard')
+
+
     }catch(e){
         console.log(e)
         res.status(500).json({msg: `${e}`})

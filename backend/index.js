@@ -6,6 +6,7 @@ import userRouter from './routes/users.js'
 import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
 import isAuthenticated from './utils/middleware/authentication.js'
+import { sendEmailAuthentication } from './utils/sendEmail.js'
 const app = express()
 app.set('view engine', 'ejs')
 app.use(bodyParser.json())
@@ -31,7 +32,6 @@ app.use(userRouter)
 app.get('/dashboard', isAuthenticated, (req, res) => {
     res.render('dashboard.ejs')
 })
-
 
 
 
