@@ -1,4 +1,5 @@
 const TOKEN_NAME = 'token'
+import jwt from "jsonwebtoken"
 
 /**
  * creates a token payload from provided data
@@ -12,7 +13,7 @@ export function createTokenPayload(payload){
     if(!payload.userId || typeof payload.userId !== 'string'){
         throw new Error('Either userId property doesnt exist or isnt a String')
     }
-    const token = jwt.sign({userId}, process.env.SECRET_KEY)
+    const token = jwt.sign({payload}, process.env.SECRET_KEY)
     return token
 }
 

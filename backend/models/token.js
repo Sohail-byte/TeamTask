@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+const Schema = mongoose.Schema
 const tokenSchema = new mongoose.Schema({
     userId: {
         type: Schema.Types.ObjectId,
@@ -20,5 +20,5 @@ const tokenSchema = new mongoose.Schema({
 
 
 
-const token = mongoose.model('token', tokenSchema)
-module.exports = token
+const Token = mongoose.model('Token', tokenSchema)
+export default Token

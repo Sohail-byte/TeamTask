@@ -2,21 +2,16 @@ import './utils/loadEnvironment.js'
 import './utils/dbConnection.js'
 import express from 'express'
 import mongoose from 'mongoose'
-import userRouter from './routes/users.js'
 import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
 import isAuthenticated from './utils/middleware/authentication.js'
-import { sendEmailAuthentication } from './utils/sendEmail.js'
+import signupRouter from './routes/signup.js'
+import loginRouter from './routes/login.js'
+import emailAuthenticationRouter from './routes/emailVerification.js'
 const app = express()
 app.set('view engine', 'ejs')
 app.use(bodyParser.json())
 app.use(express.urlencoded())
-// app.use(session({
-//     secret: process.env.SECRET_KEY,
-//     resave: false,
-//     saveUninitialized: false,
-//     cookie: { secure: false }
-// }))
 app.use(cookieParser())
 
 
@@ -27,7 +22,9 @@ app.get('/', (req, res) => {
     res.render('landing-page.ejs')
 })
 
-app.use(userRouter)
+app.use(signupRouter)
+app.use(loginRouter)
+app.use(emailAuthenticationRouter)
 
 app.get('/dashboard', isAuthenticated, (req, res) => {
     res.render('dashboard.ejs')
