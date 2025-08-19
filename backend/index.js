@@ -4,10 +4,10 @@ import express from 'express'
 import mongoose from 'mongoose'
 import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
-import isAuthenticated from './utils/middleware/authentication.js'
 import signupRouter from './routes/signup.js'
 import loginRouter from './routes/login.js'
 import emailAuthenticationRouter from './routes/emailVerification.js'
+import dashboardRouter from './routes/dashboard.js'
 const app = express()
 app.set('view engine', 'ejs')
 app.use(bodyParser.json())
@@ -25,10 +25,8 @@ app.get('/', (req, res) => {
 app.use(signupRouter)
 app.use(loginRouter)
 app.use(emailAuthenticationRouter)
+app.use(dashboardRouter)
 
-app.get('/dashboard', isAuthenticated, (req, res) => {
-    res.render('dashboard.ejs')
-})
 
 
 
