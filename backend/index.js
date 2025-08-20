@@ -8,6 +8,7 @@ import signupRouter from './routes/signup.js'
 import loginRouter from './routes/login.js'
 import emailAuthenticationRouter from './routes/emailVerification.js'
 import dashboardRouter from './routes/dashboard.js'
+import notesRouter from './routes/notes.js'
 const app = express()
 app.set('view engine', 'ejs')
 app.use(bodyParser.json())
@@ -26,7 +27,7 @@ app.use(signupRouter)
 app.use(loginRouter)
 app.use(emailAuthenticationRouter)
 app.use(dashboardRouter)
-
+app.use('/notes', notesRouter)
 
 
 

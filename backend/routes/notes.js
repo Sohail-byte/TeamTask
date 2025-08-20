@@ -11,8 +11,8 @@ const notesRouter = express.Router()
 
 
 
-notesRouter.get('/create', async((req, res) => {
-
+notesRouter.get('/create', ((req, res) => {
+    res.render('notes/newNote')
 }))
 
 
