@@ -3,11 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Note Editor — NotesFlow</title>
-
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
   <style>
     :root{
       --bg:#0b0b0c;
@@ -17,12 +14,19 @@
       --accent:#6c4bd6;
       --cta:#3b82f6;
       --glass: rgba(255,255,255,0.03);
-      --success: #10b981;
-      --warning: #f59e0b;
-      --danger: #ef4444;
+      --bg:#0b0b0c;
+      --panel:#0f0f11;
+      --muted:#9CA3AF;
+      --white:#ffffff;
+      --accent:#6c4bd6;
+      --cta:#3b82f6;
+      --glass: rgba(255,255,255,0.03);
     }
+    
     *{box-sizing:border-box}
-    body{
+    
+
+body{
       margin:0;
       font-family:Inter,system-ui,Arial;
       background:linear-gradient(180deg,var(--bg), #0f0f11);
@@ -30,7 +34,14 @@
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
       min-height:100vh;
-      overflow-x: hidden;
+    }
+    a:visited{
+      color: #ffffff;
+      text-decoration: none;
+    }
+    a{
+      color: #ffffff;
+      text-decoration: none;
     }
 
     /* Nav */
@@ -41,482 +52,181 @@
       padding:20px 40px;
       border-bottom:1px solid rgba(255,255,255,0.03);
       background: rgba(255,255,255,0.01);
-      backdrop-filter: blur(10px);
-      position: sticky;
-      top: 0;
-      z-index: 100;
     }
     .logo {
       font-family:Poppins, Inter, sans-serif;
       font-weight:800;
       font-size:20px;
       letter-spacing:-0.02em;
-      background: linear-gradient(135deg, var(--cta), var(--accent));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      text-decoration: none;
     }
-    .nav-actions { 
-      display:flex; 
-      gap:12px; 
-      align-items:center;
-    }
+    .nav-actions { display:flex; gap:10px; align-items:center }
     .btn {
-      padding:10px 20px;
+      padding:8px 12px;
       border-radius:8px;
       border:1px solid var(--glass);
       background:transparent;
       color:var(--white);
       font-weight:600;
-      font-size:14px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      text-decoration: none;
-      display: inline-block;
-    }
-    .btn:hover {
-      background: rgba(255,255,255,0.05);
-      transform: translateY(-1px);
+      font-size:13px;
     }
     .btn.primary {
       background: linear-gradient(90deg,var(--cta), var(--accent));
       border:0;
       box-shadow: 0 8px 24px rgba(67,56,202,0.12);
     }
-    .btn.primary:hover {
-      box-shadow: 0 12px 32px rgba(67,56,202,0.18);
-      transform: translateY(-2px);
-    }
-    .btn.secondary {
-      background: rgba(255,255,255,0.05);
-      border-color: rgba(255,255,255,0.1);
-    }
-
-    /* Main Editor */
-    main {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 60px 40px;
-    }
-
     .editor-container {
       background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.02));
       border-radius: 16px;
       padding: 40px;
       border: 1px solid var(--glass);
-      backdrop-filter: blur(10px);
-      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 600px;
     }
 
-    .editor-header {
-      margin-bottom: 32px;
+    h1 {
+      font-size: 28px;
+      font-weight: 600;
+      margin: 0 0 32px 0;
+      text-align: center;
+      color: var(--white);
     }
 
-    .editor-title {
-      font-family: Poppins, Inter, sans-serif;
-      font-weight: 800;
-      font-size: 32px;
-      margin: 0 0 8px 0;
-      background: linear-gradient(135deg, var(--white), var(--muted));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .editor-subtitle {
-      color: var(--muted);
-      font-size: 16px;
-      margin: 0;
-    }
-
-    /* Form Styles */
     .form-group {
-      margin-bottom: 28px;
+      margin-bottom: 24px;
     }
 
-    .form-group label {
+    label {
       display: block;
       margin-bottom: 8px;
-      font-weight: 600;
+      font-weight: 500;
       font-size: 14px;
       color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
     }
 
-    .form-group input, 
-    .form-group select, 
-    .form-group textarea {
+    input[type="text"], textarea {
       width: 100%;
-      padding: 16px 20px;
-      border-radius: 12px;
+      padding: 16px;
+      border-radius: 8px;
       border: 1px solid var(--glass);
       background: rgba(255,255,255,0.02);
       color: var(--white);
       font-size: 16px;
       font-family: Inter, sans-serif;
-      transition: all 0.3s ease;
-      resize: none;
-    }
-
-    .form-group input:focus, 
-    .form-group select:focus, 
-    .form-group textarea:focus {
-      outline: none;
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(108, 75, 214, 0.1);
-      background: rgba(255,255,255,0.03);
-    }
-
-    .form-group textarea {
-      min-height: 300px;
-      line-height: 1.6;
-      font-size: 15px;
-    }
-
-    .form-group select {
-      cursor: pointer;
-    }
-
-    /* Auto-resize textarea */
-    .auto-resize {
-      overflow: hidden;
-    }
-
-    /* Form Actions */
-    .form-actions {
-      display: flex;
-      gap: 16px;
-      justify-content: flex-end;
-      margin-top: 40px;
-      padding-top: 32px;
-      border-top: 1px solid var(--glass);
-    }
-
-    /* Status indicator */
-    .status {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 14px;
-      color: var(--muted);
-      margin-bottom: 20px;
-    }
-
-    .status-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--success);
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.5; }
-    }
-
-    /* Character count */
-    .char-count {
-      text-align: right;
-      font-size: 12px;
-      color: var(--muted);
-      margin-top: 8px;
-      opacity: 0.7;
-    }
-
-    /* Responsive */
-    @media (max-width: 900px) {
-      main { padding: 40px 28px; }
-      .editor-container { padding: 28px; }
-      .editor-title { font-size: 28px; }
-      header { padding: 16px 20px; }
-    }
-
-    @media (max-width: 600px) {
-      main { padding: 20px 16px; }
-      .editor-container { padding: 20px; }
-      .editor-title { font-size: 24px; }
-      .form-actions { 
-        flex-direction: column-reverse;
-        gap: 12px;
-      }
-      .btn {
-        width: 100%;
-        text-align: center;
-      }
-    }
-
-    /* Smooth animations */
-    * {
       transition: all 0.2s ease;
     }
 
-    /* Custom scrollbar */
-    textarea::-webkit-scrollbar {
-      width: 6px;
+    input[type="text"]:focus, textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(108, 75, 214, 0.2);
     }
-    
-    textarea::-webkit-scrollbar-track {
-      background: rgba(255,255,255,0.05);
-      border-radius: 3px;
+
+    textarea {
+      min-height: 200px;
+      resize: vertical;
+      line-height: 1.5;
     }
-    
-    textarea::-webkit-scrollbar-thumb {
-      background: rgba(255,255,255,0.2);
-      border-radius: 3px;
+
+    .submit-btn {
+      width: 100%;
+      padding: 16px;
+      border: none;
+      border-radius: 8px;
+      background: linear-gradient(90deg, var(--cta), var(--accent));
+      color: var(--white);
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
     }
-    
-    textarea::-webkit-scrollbar-thumb:hover {
-      background: rgba(255,255,255,0.3);
+
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(67,56,202,0.3);
+    }
+
+    .submit-btn:active {
+      transform: translateY(0);
+    }
+       header {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:20px 40px;
+      border-bottom:1px solid rgba(255,255,255,0.03);
+      background: rgba(255,255,255,0.01);
+    }
+
+    @media (max-width: 600px) {
+      .editor-container {
+        padding: 24px;
+      }
+      h1 {
+        font-size: 24px;
+        header{ padding:12px 16px }
+      }
     }
   </style>
 </head>
 <body>
   <header>
+    <div class="nav-actions">
     <div class="logo"><a href="/">TeamTask</a></div>
+    </div>
   </header>
 <body>
-    <main>
-    <div class="editor-container">
-      <div class="editor-header">
-        <h1 class="editor-title">Edit Note</h1>
-        <p class="editor-subtitle">Capture your thoughts and ideas</p>
+  <div class="editor-container">
+    <h1>Create Note</h1>
+    
+    <form id="noteForm">
+      <div class="form-group">
+        <label for="noteTitle">Title</label>
+        <input 
+          type="text" 
+          id="noteTitle" 
+          placeholder="Enter note title..."
+          required
+        >
       </div>
 
-      <div class="status">
-        <span class="status-dot"></span>
-        Auto-saved 2 minutes ago
+      <div class="form-group">
+        <label for="noteContent">Content</label>
+        <textarea 
+          id="noteContent" 
+          placeholder="Write your thoughts here..."
+          required
+        ></textarea>
       </div>
 
-      <form id="noteForm">
-        <div class="form-group">
-          <label for="noteTitle">Title</label>
-          <input 
-            type="text" 
-            id="noteTitle" 
-            value="Weekend Getaway Ideas"
-            placeholder="Enter note title..."
-            required
-          >
-        </div>
+      <button type="submit" class="submit-btn">Save Note</button>
+    </form>
+  </div>
 
-        <div class="form-group">
-          <label for="noteCategory">Category</label>
-          <select id="noteCategory">
-            <option value="personal" selected>Personal</option>
-            <option value="work">Work</option>
-            <option value="ideas">Ideas</option>
-            <option value="tasks">Tasks</option>
-            <option value="journal">Journal</option>
-            <option value="research">Research</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="noteContent">Content</label>
-          <textarea 
-            id="noteContent" 
-            class="auto-resize"
-            placeholder="Write your thoughts here..."
-            required
-          >Planning a trip to the mountains for next weekend. Here's what I need to research and prepare:
-
-**Accommodation:**
-- Look for cabins or camping sites near hiking trails
-- Check availability for Saturday night
-- Consider backup options in case of weather
-
-**Activities:**
-- Research popular hiking trails in the area
-- Check difficulty levels and duration
-- Look up scenic viewpoints for photography
-
-**Packing List:**
-- Hiking boots and comfortable clothes
-- Camera equipment for landscape shots
-- Camping gear if staying overnight
-- First aid kit and emergency supplies
-- Snacks and plenty of water
-
-**Weather Preparation:**
-- Check 7-day forecast before departure
-- Pack rain gear just in case
-- Bring layers for temperature changes
-
-This should be an amazing reset after a busy work week. Nature always helps clear my mind and provides fresh perspective.</textarea>
-          <div class="char-count">
-            <span id="charCount">0</span> characters
-          </div>
-        </div>
-
-        <div class="form-actions">
-          <button type="button" class="btn" onclick="showDiscardDialog()">Delete Note</button>
-          <button type="button" class="btn secondary" onclick="saveDraft()">Save Draft</button>
-          <button type="submit" class="btn primary">Save Note</button>
-        </div>
-      </form>
-    </div>
-  </main>
-
-   <script>
-    // Auto-resize textarea
-    const textarea = document.getElementById('noteContent');
-    const charCount = document.getElementById('charCount');
-
-    function updateCharCount() {
-      const count = textarea.value.length;
-      charCount.textContent = count.toLocaleString();
-    }
-
-    function autoResize() {
-      textarea.style.height = 'auto';
-      textarea.style.height = textarea.scrollHeight + 'px';
-    }
-
-    textarea.addEventListener('input', function() {
-      updateCharCount();
-      autoResize();
-    });
-
-    // Initialize
-    updateCharCount();
-    autoResize();
-
-    // Auto-save simulation
-    let autoSaveInterval;
-    let lastSaved = new Date();
-
-    function updateAutoSaveStatus() {
-      const statusText = document.querySelector('.status');
-      const now = new Date();
-      const diffMinutes = Math.floor((now - lastSaved) / (1000 * 60));
-      
-      if (diffMinutes === 0) {
-        statusText.innerHTML = '<span class="status-dot"></span>Just saved';
-      } else if (diffMinutes === 1) {
-        statusText.innerHTML = '<span class="status-dot"></span>Auto-saved 1 minute ago';
-      } else {
-        statusText.innerHTML = `<span class="status-dot"></span>Auto-saved ${diffMinutes} minutes ago`;
-      }
-    }
-
-    // Simulate auto-save
-    function simulateAutoSave() {
-      lastSaved = new Date();
-      updateAutoSaveStatus();
-      
-      // Flash save indicator
-      const dot = document.querySelector('.status-dot');
-      dot.style.background = var('--success');
-      setTimeout(() => {
-        dot.style.background = '';
-      }, 1000);
-    }
-
-    // Auto-save every 30 seconds when typing
-    let typingTimer;
-    textarea.addEventListener('input', function() {
-      clearTimeout(typingTimer);
-      typingTimer = setTimeout(simulateAutoSave, 2000);
-    });
-
-    // Update auto-save status every minute
-    setInterval(updateAutoSaveStatus, 60000);
-
-    // Form submission
+  <script>
     document.getElementById('noteForm').addEventListener('submit', function(e) {
       e.preventDefault();
       
-      // Simulate save
-      const btn = document.querySelector('.btn.primary');
+      const title = document.getElementById('noteTitle').value;
+      const content = document.getElementById('noteContent').value;
+      
+      // Simple success feedback
+      const btn = document.querySelector('.submit-btn');
       const originalText = btn.textContent;
+      
       btn.textContent = 'Saving...';
       btn.disabled = true;
       
       setTimeout(() => {
-        btn.textContent = '✓ Saved';
+        btn.textContent = '✓ Saved!';
         setTimeout(() => {
           btn.textContent = originalText;
           btn.disabled = false;
-          simulateAutoSave();
-        }, 1000);
-      }, 1500);
-    });
-
-    function saveDraft() {
-      simulateAutoSave();
-      alert('Draft saved successfully!');
-    }
-
-    function showPreview() {
-      const title = document.getElementById('noteTitle').value;
-      const content = document.getElementById('noteContent').value;
-      
-      const previewWindow = window.open('', '_blank', 'width=600,height=800');
-      previewWindow.document.write(`
-        <html>
-          <head>
-            <title>Preview: ${title}</title>
-            <style>
-              body { 
-                font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif; 
-                max-width: 600px; 
-                margin: 40px auto; 
-                padding: 20px; 
-                line-height: 1.6;
-                color: #333;
-              }
-              h1 { color: #2563eb; margin-bottom: 10px; }
-              pre { 
-                white-space: pre-wrap; 
-                background: #f8f9fa; 
-                padding: 20px; 
-                border-radius: 8px;
-                border-left: 4px solid #2563eb;
-              }
-            </style>
-          </head>
-          <body>
-            <h1>${title}</h1>
-            <pre>${content}</pre>
-          </body>
-        </html>
-      `);
-    }
-
-    function showDiscardDialog() {
-      if (confirm('Are you sure you want to delete this note? This action cannot be undone.')) {
-        alert('Note deleted successfully!');
-        // In a real app, this would redirect back to notes list
-      }
-    }
-
-    // Keyboard shortcuts
-    document.addEventListener('keydown', function(e) {
-      // Ctrl/Cmd + S to save
-      if ((e.ctrlKey || e.metaKey) && e.key === 's') {
-        e.preventDefault();
-        document.getElementById('noteForm').dispatchEvent(new Event('submit'));
-      }
-      
-      // Ctrl/Cmd + Enter to save
-      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
-        e.preventDefault();
-        document.getElementById('noteForm').dispatchEvent(new Event('submit'));
-      }
-    });
-
-    // Warn before leaving with unsaved changes
-    let hasUnsavedChanges = false;
-    textarea.addEventListener('input', () => hasUnsavedChanges = true);
-    document.getElementById('noteTitle').addEventListener('input', () => hasUnsavedChanges = true);
-
-    window.addEventListener('beforeunload', function(e) {
-      if (hasUnsavedChanges) {
-        e.preventDefault();
-        e.returnValue = '';
-      }
+          // Clear form after successful save
+          document.getElementById('noteForm').reset();
+        }, 1500);
+      }, 1000);
     });
   </script>
 </body>
 </html>
+
