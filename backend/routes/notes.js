@@ -19,7 +19,7 @@ notesRouter.get('/create', isAuthenticated, ((req, res) => {
 notesRouter.post('/create', async(req, res)=>{
     console.log(req.cookies)
     console.log(req.body)
-    res.send('saveed')
+
 })
 
 
