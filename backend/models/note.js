@@ -6,6 +6,10 @@ const noteSchema = new mongoose.Schema({
         default: 'New Note',
         unique: true
     },
+    summary:{
+        type: String,
+        required: true
+    },
     content: {
         type: String,
         default: ''
