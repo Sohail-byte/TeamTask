@@ -19,7 +19,7 @@ notesRouter.get('/create', isAuthenticated, ((req, res) => {
 
 notesRouter.post('/create', async(req, res)=>{
 
-    const {title, content} = req.body
+    const {title, summary, content} = req.body
     const tokenPayload = decodeJWTToken(req.cookies.token)
     console.log(tokenPayload)
     // console.log({title, content})
@@ -27,6 +27,7 @@ notesRouter.post('/create', async(req, res)=>{
         const newNote = await new Note({
             title,
             content,
+            summary,
             userId: tokenPayload.userId
         }).save()
         res.status(201).redirect('/dashboard')
