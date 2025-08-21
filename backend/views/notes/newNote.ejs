@@ -189,54 +189,33 @@ body{
   <div class="editor-container">
     <h1>Create Note</h1>
     
-    <form id="noteForm">
-      <div class="form-group">
+    <form id="noteForm" action="/notes/create" method="POST">
+
         <label for="noteTitle">Title</label>
-        <input 
+        <input class="form-group"
           type="text" 
           id="noteTitle" 
           placeholder="Enter note title..."
           required
+          name="title" 
         >
-      </div>
 
-      <div class="form-group">
+
         <label for="noteContent">Content</label>
-        <textarea 
+        <textarea class="form-group"
           id="noteContent" 
           placeholder="Write your thoughts here..."
           required
+          name="content"
         ></textarea>
-      </div>
+
 
       <button type="submit" class="submit-btn">Save Note</button>
     </form>
   </div>
 </main>
   <script>
-    document.getElementById('noteForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      
-      const title = document.getElementById('noteTitle').value;
-      const content = document.getElementById('noteContent').value;
-      
-      // Simple success feedback
-      const btn = document.querySelector('.submit-btn');
-      const originalText = btn.textContent;
-      
-      btn.textContent = 'Saving...';
-      btn.disabled = true;
-      
-      setTimeout(() => {
-        btn.textContent = '✓ Saved!';
-        setTimeout(() => {
-          btn.textContent = originalText;
-          btn.disabled = false;
-          // Clear form after successful save
-          document.getElementById('noteForm').reset();
-        }, 1500);
-      }, 1000);
-    });
+    
   </script>
 </body>
 </html>
