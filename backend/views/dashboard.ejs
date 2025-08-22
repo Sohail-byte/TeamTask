@@ -84,7 +84,7 @@
       gap:18px;
     }
     .project {
-      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.02));
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.088), rgba(0, 0, 0, 0.01));
       border-radius:12px;
       padding:18px;
       border:1px solid var(--glass);
@@ -111,8 +111,8 @@
       text-decoration: none;
     }
     .action-btns{
-      margin-right: 106px;
-      
+      position: relative;
+      float: right;
     }
 
     @media (max-width:900px){
@@ -185,10 +185,10 @@
                   <button type="button" onclick='deleteNote(${JSON.stringify(note._id)})'>🗑️</button>
                 </div>
               <h3>${note.title}</h3>
-              <p>${note.content}</p>
+              <p>${note.summary}</p>
                </div>`
             })
-        }
+        } 
             await generateHtml(notes)
             projectContainer.innerHTML = html
         }catch(e){
