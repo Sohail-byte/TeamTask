@@ -165,11 +165,10 @@
             const res = await fetch('/notes');
             const data = await res.json();
             const notes = data.notes
-            console.log(notes)
+            // console.log(notes)
             // const data = notes.notes.json()
             let html = ''
             if(!notes.length){
-              console.log('work')
               html = `<div class="empty">
         <strong>No projects yet</strong>
         <p>Create your first project to organize tasks and collaborate with your team.</p>
