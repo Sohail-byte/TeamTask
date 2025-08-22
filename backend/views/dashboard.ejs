@@ -50,7 +50,7 @@
       border-radius:8px;
       border:1px solid var(--glass);
       background:transparent;
-      color:var(--white);
+      
       font-weight:600;
       font-size:13px;
     }
@@ -110,6 +110,10 @@
       color: #ffffff;
       text-decoration: none;
     }
+    .action-btns{
+      margin-right: 106px;
+      
+    }
 
     @media (max-width:900px){
       .projects{ grid-template-columns:repeat(2,1fr); }
@@ -141,20 +145,6 @@
 
     <section>
       <div class="projects">
-        <div class="project">
-          <h3>Website Redesign</h3>
-          <p>Revamp the marketing site: copy, visuals, and launch checklist. Due: Apr 28</p>
-        </div>
-
-        <div class="project">
-          <h3>Mobile App MVP</h3>
-          <p>Build core task & notes sync, authentication, and sharing. Due: May 12</p>
-        </div>
-
-        <div class="project">
-          <h3>Onboarding Flow</h3>
-          <p>Create first-run experience and sample content for new teams. Due: May 3</p>
-        </div>
       </div>
     </section>
 
@@ -168,5 +158,54 @@
     </section>
     -->
   </main>
+  <script>
+        const projectContainer = document.querySelector('.projects')
+
+        //fetching user projects  
+        //check what if the res contains empty response
+        async function fetchUserProjects(){
+          try{
+            const res = await fetch('/notes');
+            const data = await res.json();
+            const notes = data.notes
+            // const data = notes.notes.json()
+            let html = ''
+            const generateHtml = (notes) => {
+            notes.forEach(note => {
+            html+= `
+              <div class="project">
+                <div class="action-btns">
+                  <a href="/notes" class="btn">✏️</a>
+                  <button onclick=''>🗑️</button>
+                </div>
+              <h3>${note.title}</h3>
+              <p>${note.content}</p>
+               </div>`
+            })
+        }
+            await generateHtml(notes)
+            projectContainer.innerHTML = html
+        }catch(e){
+          console.log(e)
+          alert('fetching projects failed')
+        }
+
+        }
+        fetchUserProjects()
+
+        //todo-use dataset attributes to assign notes id to each container and when you click on
+        //the cards, it sends request to server to open a separate ejs view in new page and then add update functionality to it
+
+
+
+
+
+
+        
+        
+        
+        
+        
+  </script>
 </body>
 </html>

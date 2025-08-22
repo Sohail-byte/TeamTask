@@ -38,6 +38,13 @@ notesRouter.post('/create', async(req, res)=>{
 
 })
 
+//route for retrieving all the notes
+notesRouter.get('/', isAuthenticated, async (req, res) => {
+    const decodedToken = decodeJWTToken(req.cookies.token)
+    const userId = decodedToken?.payload?.userId
+    const notes = await Note.find({userId})
+    res.json({notes}).status(201)
+})
 
 
 
@@ -46,4 +53,16 @@ notesRouter.post('/create', async(req, res)=>{
 
 
 
+
+
+
+
+
+
+
+
+
+//also create a route to retrieve a single note and then update/delete it and stuff
+//use /note/?id
+//req.params.id
 export default notesRouter
