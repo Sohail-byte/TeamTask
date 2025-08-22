@@ -168,15 +168,17 @@
             const res = await fetch('/notes');
             const data = await res.json();
             const notes = data.notes
+            console.log(notes)
             // const data = notes.notes.json()
             let html = ''
             const generateHtml = (notes) => {
             notes.forEach(note => {
+              console.log(note._id)
             html+= `
               <div class="project">
                 <div class="action-btns">
                   <a href="/notes" class="btn">✏️</a>
-                  <button onclick=''>🗑️</button>
+                  <button type="button" onclick='deleteNote(${JSON.stringify(note._id)})'>🗑️</button>
                 </div>
               <h3>${note.title}</h3>
               <p>${note.content}</p>
@@ -196,7 +198,18 @@
         //todo-use dataset attributes to assign notes id to each container and when you click on
         //the cards, it sends request to server to open a separate ejs view in new page and then add update functionality to it
 
-
+        const deleteNote = async(id) => {
+          console.log(id)
+          try{
+            const res = await fetch(`/notes/delete/${encodeURIComponent(id)}`, { method: 'DELETE' })
+            if(!res.ok){
+              alert('Failed to delete note')
+            }
+          } catch(e){
+            console.log(e)
+          }
+          fetchUserProjects()
+        }
 
 
 
