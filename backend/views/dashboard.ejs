@@ -151,10 +151,7 @@
     <!-- optional empty state (uncomment / replace above projects if no projects) -->
     <!--
     <section>
-      <div class="empty">
-        <strong>No projects yet</strong>
-        <p>Create your first project to organize tasks and collaborate with your team.</p>
-      </div>
+      
     </section>
     -->
   </main>
@@ -171,6 +168,14 @@
             console.log(notes)
             // const data = notes.notes.json()
             let html = ''
+            if(!notes.length){
+              console.log('work')
+              html = `<div class="empty">
+        <strong>No projects yet</strong>
+        <p>Create your first project to organize tasks and collaborate with your team.</p>
+      </div>`
+            projectContainer.innerHTML = html
+            }
             const generateHtml = (notes) => {
             notes.forEach(note => {
               console.log(note._id)
