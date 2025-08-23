@@ -59,7 +59,7 @@ notesRouter.delete('/delete/:id',isAuthenticated, async (req, res) => {
     }
 })
 
-//create route for updating your notes
+//create route for retrieving one of your notes
 
 notesRouter.get('/:id', isAuthenticated, async(req, res) => {
     const noteId = req.params.id
@@ -83,7 +83,5 @@ notesRouter.get('/:id', isAuthenticated, async(req, res) => {
 
 
 
-//also create a route to retrieve a single note and then update/delete it and stuff
-//use /note/?id
-//req.params.id
+
 export default notesRouter
