@@ -135,7 +135,7 @@
 </head>
 <body>
   <header>
-    <div class="logo"><a href="/">TeamTask</a></div>
+    <div class="logo"><a href="/dashboard">TeamTask</a></div>
     <div class="nav-actions">
       <a href="/logout" class="btn">Logout</a>
       <a href="/notes/create" class="btn primary">New Note</a>
@@ -183,17 +183,15 @@
             }
             const generateHtml = (notes) => {
             notes.forEach(note => {
-              console.log(note._id)
             html+= `
               <div class="project">
                 <div class="action-btns">
-                  <a href="/notes" class="btn">✏️</a>
+                  <a href="/notes/${note._id}" class="btn">✏️</a>
                   <button type="button" onclick='
                   let result = confirm("Want to delete this note?");
-if (result) {
-    deleteNote(${JSON.stringify(note._id)})
-}
-                  
+                  if (result) {
+                      deleteNote(${JSON.stringify(note._id)})
+                  }                  
                   '>🗑️</button>
                 </div>
               <h3>${note.title}</h3>
