@@ -89,6 +89,11 @@
       padding:18px;
       border:1px solid var(--glass);
       min-height:110px;
+      transition: all .3s;
+      cursor: pointer;
+    }
+    .project:hover{
+      transform: scale(105%);
     }
     .project h3{ margin:0 0 8px 0; font-size:18px }
     .project p{ margin:0; color:var(--muted); font-size:14px }
@@ -114,6 +119,7 @@
       position: relative;
       float: right;
     }
+
 
     @media (max-width:900px){
       .projects{ grid-template-columns:repeat(2,1fr); }
@@ -183,7 +189,7 @@
                 <div class="action-btns">
                   <a href="/notes" class="btn">✏️</a>
                   <button type="button" onclick='
-                  var result = confirm("Want to delete?");
+                  let result = confirm("Want to delete this note?");
 if (result) {
     deleteNote(${JSON.stringify(note._id)})
 }

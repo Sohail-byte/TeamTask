@@ -61,8 +61,17 @@ notesRouter.delete('/delete/:id',isAuthenticated, async (req, res) => {
 
 //create route for updating your notes
 
-
-
+notesRouter.get('/:id', isAuthenticated, async(req, res) => {
+    const noteId = req.params.id
+    try{
+        const note = await Note.findOne({_id: noteId})
+        console.log(note)
+        res.json({note})
+    }catch(e){
+        console.log(e)
+        res.status(500).json({msg: 'error while retrieving the note'})
+    }
+})
 
 
 
