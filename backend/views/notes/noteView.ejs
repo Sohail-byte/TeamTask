@@ -177,6 +177,13 @@ body{
       font-family:Poppins, Inter, sans-serif;
       text-wrap: auto;
     }
+    .edit-btn:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(67,56,202,0.3);
+    }
+    .edit-btn:active{
+      transform: translateY(0);
+    }
     .note-bar{
     display: grid;
     grid-template-columns: 1fr auto 1fr;
@@ -195,6 +202,9 @@ body{
       grid-column: 2;
     justify-self: center;
     margin: 0;
+    }
+    .invis{
+      display: none;
     }
     @media (max-width: 600px) {
       .editor-container {
@@ -227,25 +237,50 @@ body{
 
         <label for="noteContent">Content</label>
           <pre class="noteContent text-view" name="noteContent"><%= note.content %></pre>
-          <button class="submit-btn"></button>
+          <button class="submit-btn invis">Update</button>
   </div>
 </main>
   <script>
     const editBtn = document.querySelector('.edit-btn')
+    const submitBtn = document.querySelector('.submit-btn')
     editBtn.addEventListener('click', () => {
       if(editBtn.textContent==='Edit'){
-      console.log(1)
       document.querySelectorAll('pre').forEach(pre => {
         pre.setAttribute('contenteditable', 'true')
       })
+      submitBtn.classList.remove('invis')
       editBtn.textContent = "Cancel"
       }else{
-        editBtn.textContent = "Edit"
-        document.querySelectorAll('pre').forEach(pre => {
-        pre.setAttribute('contenteditable', 'false')
-      })
+      location.reload()
       }
     })
+
+      submitBtn.addEventListener('click', async () => {
+          const title = document.querySelector('.noteTitle').textContent
+          const summary = document.querySelector('.noteSummary').textContent
+          const content = document.querySelector('.noteContent').textContent
+
+          try{
+          const res = await fetch(`/notes/<%= note._id %>/update`, {
+            method: "PUT",
+            headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+            body: JSON.stringify({title, summary, content})
+          })
+            if(!res.ok){
+              alert('Failed to update note')
+            }else{
+              location.reload()
+            }
+          }catch(e){
+            console.log(e)
+          }
+          
+      } )
+
+
   </script>
 </body>
 </html>

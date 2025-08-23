@@ -213,7 +213,6 @@
         //the cards, it sends request to server to open a separate ejs view in new page and then add update functionality to it
 
         const deleteNote = async(id) => {
-          console.log(id)
           try{
             const res = await fetch(`/notes/delete/${encodeURIComponent(id)}`, { method: 'DELETE' })
             if(!res.ok){
