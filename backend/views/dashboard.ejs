@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>TeamTask — Projects</title>
+  <title>TeamTask — Notes</title>
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
@@ -182,7 +182,13 @@
               <div class="project">
                 <div class="action-btns">
                   <a href="/notes" class="btn">✏️</a>
-                  <button type="button" onclick='deleteNote(${JSON.stringify(note._id)})'>🗑️</button>
+                  <button type="button" onclick='
+                  var result = confirm("Want to delete?");
+if (result) {
+    deleteNote(${JSON.stringify(note._id)})
+}
+                  
+                  '>🗑️</button>
                 </div>
               <h3>${note.title}</h3>
               <p>${note.summary}</p>
