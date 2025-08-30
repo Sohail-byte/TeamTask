@@ -72,7 +72,7 @@
     .hero h1{
       font-family:Poppins, Inter, sans-serif;
       font-weight:800;
-      font-size:48px;
+      font-size:40px;
       margin:0 0 8px 0;
     }
     .hero p{ color:var(--muted); margin:0 0 18px 0; font-size:16px }
@@ -106,6 +106,7 @@
       background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.02));
       border:1px solid var(--glass);
       color:var(--muted);
+      max-height:210px;
     }
     a:visited{
       color: #ffffff;
@@ -120,6 +121,10 @@
       float: right;
     }
 
+    .projects{
+      border: 1px solid red;
+      min-height: 300px;
+    }
 
     @media (max-width:900px){
       .projects{ grid-template-columns:repeat(2,1fr); }
@@ -154,6 +159,17 @@
       </div>
     </section>
 
+    <section class="hero collaborate-hero">
+      <h1>Your Collaborative Notes:</h1>
+      <p>All your notes and their quick summaries. Click a project to open details and tasks.</p>
+    </section>
+
+
+    <section>
+      <div class="projects Collaborative-projects">
+      </div>
+    </section>
+
     <!-- optional empty state (uncomment / replace above projects if no projects) -->
     <!--
     <section>
@@ -163,7 +179,7 @@
   </main>
   <script>
         const projectContainer = document.querySelector('.projects')
-
+        const collaborativProjectContainer = document.querySelector('.Collaborative-projects')
         //fetching user projects  
         //check what if the res contains empty response
         async function fetchUserProjects(){
@@ -207,7 +223,61 @@
         }
 
         }
+        async function fetchCollaborativeProjects(){
+          try{
+            const res = await fetch('/collaborations');
+            const data = await res.json();
+            // const notes = data.notes
+            console.log(data)
+            // const data = notes.notes.json()
+            let html = ''
+            if(!notes.length){
+              html = `<div class="empty">
+        <strong>No projects yet</strong>
+        <p>Create your first project to organize tasks and collaborate with your team.</p>
+      </div>`
+            projectContainer.innerHTML = html
+            }
+        //     const generateHtml = (notes) => {
+        //     notes.forEach(note => {
+        //     html+= `
+        //       <div class="project">
+        //         <div class="action-btns">
+        //           <a href="/notes/${note._id}" class="btn">✏️</a>
+        //           <button type="button" onclick='
+        //           let result = confirm("Want to delete this note?");
+        //           if (result) {
+        //               deleteNote(${JSON.stringify(note._id)})
+        //           }                  
+        //           '>🗑️</button>
+        //         </div>
+        //       <h3>${note.title}</h3>
+        //       <p>${note.summary}</p>
+        //        </div>`
+        //     })
+        // } 
+            await generateHtml(notes)
+            projectContainer.innerHTML = html
+        }catch(e){
+          console.log(e)
+          alert('fetching projects failed', e)
+        }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+        
         fetchUserProjects()
+        fetchCollaborativeProjects()
 
         //todo-use dataset attributes to assign notes id to each container and when you click on
         //the cards, it sends request to server to open a separate ejs view in new page and then add update functionality to it

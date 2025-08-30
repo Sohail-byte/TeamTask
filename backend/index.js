@@ -10,6 +10,7 @@ import loginRouter from './routes/login.js'
 import emailAuthenticationRouter from './routes/emailVerification.js'
 import dashboardRouter from './routes/dashboard.js'
 import notesRouter from './routes/notes.js'
+import collaborationsRouter from './routes/collaborations.js'
 
 const app = express()
 const server = createServer(app)
@@ -20,10 +21,9 @@ app.use(bodyParser.json())
 app.use(express.urlencoded())
 app.use(cookieParser())
 
-
-
-
-
+//rendering the landing page
+//I have used EJS and server side rendering, not because I planned for it,
+//but because i didnt know frontend and this seemed easy
 app.get('/', (req, res) => {
     res.render('landing-page.ejs')
 })
@@ -33,7 +33,7 @@ app.use(loginRouter)
 app.use(emailAuthenticationRouter)
 app.use(dashboardRouter)
 app.use('/notes', notesRouter)
-
+app.use(collaborationsRouter)
 
 //trying to implement collaboration with the help of websockets
 
