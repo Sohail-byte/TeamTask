@@ -231,7 +231,7 @@
             console.log(data)
             // const data = notes.notes.json()
             let html = ''
-            if(!notes.length){
+            if(!data.length){
               html = `<div class="empty">
         <strong>No projects yet</strong>
         <p>Create your first project to organize tasks and collaborate with your team.</p>
@@ -256,8 +256,8 @@
         //        </div>`
         //     })
         // } 
-            await generateHtml(notes)
-            projectContainer.innerHTML = html
+            // await generateHtml()
+            collaborativProjectContainer.innerHTML = html
         }catch(e){
           console.log(e)
           alert('fetching projects failed', e)
