@@ -1,7 +1,8 @@
 import './utils/loadEnvironment.js'
 import './utils/dbConnection.js'
+import {createServer} from 'http'
+import { Server } from 'socket.io'
 import express from 'express'
-import mongoose from 'mongoose'
 import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
 import signupRouter from './routes/signup.js'
@@ -9,7 +10,11 @@ import loginRouter from './routes/login.js'
 import emailAuthenticationRouter from './routes/emailVerification.js'
 import dashboardRouter from './routes/dashboard.js'
 import notesRouter from './routes/notes.js'
+
 const app = express()
+const server = createServer(app)
+const io = new Server(server)
+
 app.set('view engine', 'ejs')
 app.use(bodyParser.json())
 app.use(express.urlencoded())
@@ -32,10 +37,12 @@ app.use('/notes', notesRouter)
 
 //trying to implement collaboration with the help of websockets
 
-
+io.on('connection', (socket) => {
+    console.log('a client connected')
+})
 
 
 const PORT = process.env.PORT
-app.listen(PORT, () => {
+server.listen(PORT, () => {
     console.log("Server started successfully")
 })
