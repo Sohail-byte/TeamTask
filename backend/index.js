@@ -30,7 +30,7 @@ app.use(dashboardRouter)
 app.use('/notes', notesRouter)
 
 
-
+//trying to implement collaboration with the help of websockets
 
 
 
