@@ -122,7 +122,6 @@
     }
 
     .projects{
-      border: 1px solid red;
       min-height: 300px;
     }
 
@@ -192,8 +191,8 @@
             let html = ''
             if(!notes.length){
               html = `<div class="empty">
-        <strong>No projects yet</strong>
-        <p>Create your first project to organize tasks and collaborate with your team.</p>
+        <strong>No Notes Yet</strong>
+        <p>Create your first note to organize tasks and collaborate with your team.</p>
       </div>`
             projectContainer.innerHTML = html
             }
@@ -233,8 +232,8 @@
             let html = ''
             if(!data.length){
               html = `<div class="empty">
-        <strong>No projects yet</strong>
-        <p>Create your first project to organize tasks and collaborate with your team.</p>
+        <strong>No Collaborative Notes Yet</strong>
+        <p>Create your first collaborative note to organize tasks and collaborate with your team.</p>
       </div>`
             projectContainer.innerHTML = html
             }
