@@ -33,7 +33,9 @@ app.use(loginRouter)
 app.use(emailAuthenticationRouter)
 app.use(dashboardRouter)
 app.use('/notes', notesRouter)
-app.use(collaborationsRouter)
+app.use('/collaborations',collaborationsRouter)
+
+
 
 //trying to implement collaboration with the help of websockets
 
