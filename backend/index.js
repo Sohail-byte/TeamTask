@@ -33,7 +33,7 @@ app.use(loginRouter)
 app.use(emailAuthenticationRouter)
 app.use(dashboardRouter)
 app.use('/notes', notesRouter)
-app.use('/collaborations',collaborationsRouter)
+app.use('/collaborations', collaborationsRouter)
 
 
 

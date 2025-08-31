@@ -6,7 +6,7 @@ const collaborationsRouter = express.Router()
 
 
 collaborationsRouter.get('/create', async(req, res) => {
-    res.render('/notes/collaborativeNotes/newCollaborativeNote')
+    res.render('notes/collaborativeNotes/newCollaborativeNote')
 })
 
 
@@ -19,7 +19,7 @@ collaborationsRouter.get('/create', async(req, res) => {
 
 //this route retrieves all the collaborative notes the user has
 //have to implement the functionality
-collaborationsRouter.get('/collaborations', (req, res) => {
+collaborationsRouter.get('/', (req, res) => {
     res.json({}).status(201)
 })
 
