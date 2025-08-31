@@ -5,6 +5,10 @@ const collaborationsRouter = express.Router()
 //im going to use the router for the pathc collaborations/create... and so on
 
 
+
+
+//i need to add users to the collabers and check what typoe of permissions they have then allot them 
+//controls like who can vieww and who can edit
 collaborationsRouter.get('/create', async(req, res) => {
     res.render('notes/collaborativeNotes/newCollaborativeNote')
 })
