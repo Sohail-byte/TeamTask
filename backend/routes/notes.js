@@ -17,7 +17,7 @@ notesRouter.get('/create', isAuthenticated, ((req, res) => {
     res.render('notes/newNote')
 }))
 //creating new notes and storing the notes
-notesRouter.post('/create', async(req, res)=>{
+notesRouter.post('/create', isAuthenticated ,async(req, res)=>{
 
     const {title, summary, content} = req.body
     const decodedToken = decodeJWTToken(req.cookies.token)

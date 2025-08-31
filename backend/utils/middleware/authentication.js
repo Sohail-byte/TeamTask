@@ -6,3 +6,4 @@ function isAuthenticated(req, res, next){
 }
 
 export default isAuthenticated
+///change this to check and cross reference the user id to db

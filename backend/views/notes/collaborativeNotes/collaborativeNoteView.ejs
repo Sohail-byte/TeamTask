@@ -226,17 +226,17 @@ body{
 <body>
     <main>
   <div class="editor-container">
-    <div class="note-bar"><h1>View Collaborative Note</h1> <button class="btn edit-btn">Edit</button></div>
+    <div class="note-bar"><h1>Collaborative Note</h1> <button class="btn edit-btn">Edit</button></div>
     
 
         <label for="noteTitle">Title</label>
-        <pre class="noteTitle text-view" name="noteTitle"><%= note.title %></pre>
+        <pre class="noteTitle text-view" name="noteTitle"></pre>
   
         <label for="noteSummary">Summary</label>
-        <pre class="noteSummary text-view" name="noteSummary"><%= note.summary %></pre>
+        <pre class="noteSummary text-view" name="noteSummary"></pre>
 
         <label for="noteContent">Content</label>
-          <pre class="noteContent text-view" name="noteContent"><%= note.content %></pre>
+          <pre class="noteContent text-view" name="noteContent"></pre>
           <button class="submit-btn invis">Update</button>
   </div>
 </main>
@@ -261,7 +261,7 @@ body{
           const content = document.querySelector('.noteContent').textContent
 
           try{
-          const res = await fetch(`/notes/<%= note._id %>/update`, {
+          const res = await fetch(`/notes/update`, {
             method: "PUT",
             headers: {
             'Content-Type': 'application/json',
