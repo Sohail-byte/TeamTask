@@ -53,25 +53,14 @@ collaborationsRouter.get('/',isAuthenticated, async(req, res) => {
     const userId = decodedToken?.payload?.userId
     console.log(userId)
     try{
-    //     const objectId = new mongoose.Types.ObjectId(userId)
-    //     const notesFound = await collaborativeNote.find({
-    //           $or: [
-    //     {owner: userId},
-    //     {'collaborators.user': userId} // Simpler dot notation
-    // ]
-    //     })
-    const allNotes = await collaborativeNote.find({});
-console.log('All notes:', JSON.stringify(allNotes, null, 2));
 
-// Then check your specific query
-const notesFound = await collaborativeNote.find({
+    // Then check your specific query
+    const notesFound = await collaborativeNote.find({
     $or: [
         {owner: userId},
         {'collaborators.user': userId}
     ]
 });
-// console.log('Notes found:', notesFound);
-// console.log('UserId being searched:', userId);
         console.log(notesFound)
         res.json({notesFound})
     }catch(e){
