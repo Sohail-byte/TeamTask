@@ -227,36 +227,36 @@
           try{
             const res = await fetch('/collaborations');
             const data = await res.json();
-            // const notes = data.notes
+            const notes = data.notesFound
             console.log(data)
             // const data = notes.notes.json()
             let html = ''
-            if(!data.length){
+            if(!notes.length){
               html = `<div class="empty">
         <strong>No Collaborative Notes Yet</strong>
         <p>Create your first collaborative note to organize tasks and collaborate with your team.</p>
       </div>`
             projectContainer.innerHTML = html
             }
-        //     const generateHtml = (notes) => {
-        //     notes.forEach(note => {
-        //     html+= `
-        //       <div class="project">
-        //         <div class="action-btns">
-        //           <a href="/notes/${note._id}" class="btn">✏️</a>
-        //           <button type="button" onclick='
-        //           let result = confirm("Want to delete this note?");
-        //           if (result) {
-        //               deleteNote(${JSON.stringify(note._id)})
-        //           }                  
-        //           '>🗑️</button>
-        //         </div>
-        //       <h3>${note.title}</h3>
-        //       <p>${note.summary}</p>
-        //        </div>`
-        //     })
-        // } 
-            // await generateHtml()
+            const generateHtml = (notes) => {
+            notes.forEach(note => {
+            html+= `
+              <div class="project">
+                <div class="action-btns">
+                  <a href="/collaborations/${note._id}" class="btn">✏️</a>
+                  <button type="button" onclick='
+                  let result = confirm("Want to delete this note?");
+                  if (result) {
+                      deleteNote(${JSON.stringify(note._id)})
+                  }                  
+                  '>🗑️</button>
+                </div>
+              <h3>${note.title}</h3>
+              <p>${note.summary}</p>
+               </div>`
+            })
+        } 
+            await generateHtml(notes)
             collaborativProjectContainer.innerHTML = html
         }catch(e){
           console.log(e)

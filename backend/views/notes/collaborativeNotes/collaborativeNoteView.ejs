@@ -230,13 +230,13 @@ body{
     
 
         <label for="noteTitle">Title</label>
-        <pre class="noteTitle text-view" name="noteTitle"></pre>
+        <pre class="noteTitle text-view" name="noteTitle"><%= note.title %></pre>
   
         <label for="noteSummary">Summary</label>
-        <pre class="noteSummary text-view" name="noteSummary"></pre>
+        <pre class="noteSummary text-view" name="noteSummary"><%= note.summary %></pre>
 
         <label for="noteContent">Content</label>
-          <pre class="noteContent text-view" name="noteContent"></pre>
+          <pre class="noteContent text-view" name="noteContent"><%= note.content %></pre>
           <button class="submit-btn invis">Update</button>
   </div>
 </main>

@@ -65,6 +65,7 @@ notesRouter.get('/:id', isAuthenticated, async(req, res) => {
     const noteId = req.params.id
     try{
         const note = await Note.findOne({_id: noteId})
+        // console.log(note)
         res.render('notes/noteView', {note})
     }catch(e){
         console.log(e)

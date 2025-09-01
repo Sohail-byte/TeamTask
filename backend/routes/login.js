@@ -23,7 +23,7 @@ loginRouter.post('/login', async (req, res) => {
     let {email, password} = req.body
     try{
         const userFound = await User.findOne({ email: email })
-        console.log(userFound)
+        // console.log(userFound)
         if (!userFound) {
             return res.status(400).render('user-forms/login', {error: 'user not found'});
         } else if(userFound.emailValidated){
