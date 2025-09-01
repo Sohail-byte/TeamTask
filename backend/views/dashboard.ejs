@@ -91,6 +91,7 @@
       min-height:110px;
       transition: all .3s;
       cursor: pointer;
+      max-height:150px;
     }
     .project:hover{
       transform: scale(105%);
@@ -101,12 +102,12 @@
     /* Empty state centered */
     .empty {
       text-align:center;
-      padding:56px 20px;
+      padding:35px 20px;
       border-radius:12px;
       background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.02));
       border:1px solid var(--glass);
       color:var(--muted);
-      max-height:210px;
+      max-height:150px;
     }
     a:visited{
       color: #ffffff;
@@ -295,6 +296,21 @@
           fetchUserProjects()
         }
 
+
+
+        //i can impirove this by changing the url instead of making a whole another function
+        const deleteCollaborativeNote = async(id) => {
+
+          try{
+            const res = await fetch(`/collaborations/${encodeURIComponent(id)}/delete`, { method: 'DELETE' })
+            if(!res.ok){
+              alert('Failed to delete note')
+            }
+          } catch(e){
+            console.log(e)
+          }
+          fetchUserProjects()
+        }
 
 
 

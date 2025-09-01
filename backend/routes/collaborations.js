@@ -86,6 +86,8 @@ collaborationsRouter.get('/:id', isAuthenticated ,async (req, res) => {
 })
 
 
+
+//updating the collaboration notes (have to make it so that only the owner or authorized man can delete this(maybe only the owner))
 collaborationsRouter.put('/:id/update', isAuthenticated, async (req, res) => {
     const noteId = req.params.id
     const {title, summary, content} = req.body
