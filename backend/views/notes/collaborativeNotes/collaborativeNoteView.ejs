@@ -83,6 +83,7 @@ body{
       border: 1px solid var(--glass);
       width: 100%;
       max-width: 1200px;
+      grid-row: span 5 / span 5;
     }
 
     h1 {
@@ -108,7 +109,7 @@ body{
     }
 
     input[type="text"], textarea {
-      width: 100%;
+      
       padding: 16px;
       border-radius: 8px;
       border: 1px solid var(--glass);
@@ -169,9 +170,16 @@ body{
     }
     main{
         width: 100%;
-        display: grid;
-        place-items: center;
+        padding: 25px;
         margin-top: 5rem;
+        display: grid; 
+  grid-template-columns: 20% 60% 20%; 
+  grid-template-rows: 1fr 1fr 1fr; 
+  gap: 0px 0px; 
+  grid-template-areas: 
+    "col1 col2 col3"
+    "col1 col2 col3"
+    "col1 col2 col3"; 
     }
     pre{
       font-family:Poppins, Inter, sans-serif;
@@ -197,6 +205,8 @@ body{
     .editor-container{
       display: flex;
       flex-direction: column;
+      grid-area: col2;
+      
     }
     .note-bar h1{
       grid-column: 2;
@@ -205,6 +215,43 @@ body{
     }
     .invis{
       display: none;
+    }
+
+
+    .collaborators{
+      border: 1px solid red;
+      width: 350px;
+      min-height: 200px;
+      max-height: 400px;
+      padding: 16px;
+      border-radius: 8px;
+      grid-area: col1;
+      background-color: var(--panel);
+    }
+    .collab-input{
+      display: flex;
+      gap: 10px;
+    }
+    .collaboratorUsername{
+      width: 70%;
+    }
+    .addBtn{
+      padding: 16px;
+      border: none;
+      border-radius: 8px;
+      background: linear-gradient(90deg, var(--cta), var(--accent));
+      color: var(--white);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+  display: block;
+  width: 25%;
+    }
+
+    .addBtn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(67,56,202,0.3);
     }
     @media (max-width: 600px) {
       .editor-container {
@@ -239,6 +286,16 @@ body{
           <pre class="noteContent text-view" name="noteContent"><%= note.content %></pre>
           <button class="submit-btn invis">Update</button>
   </div>
+
+  <section class="collaborators">
+    <div class="inner-container">
+      <h1 class="collab-heading">Collaborators</h1>
+      <div class="collab-input">
+        <input type="text" name="collaboratorUsername" class="collaboratorUsername" placeholder="Username...">
+        <button class="addBtn">Add</button>
+      </div>
+    </div>
+  </section>
 </main>
   <script>
     const editBtn = document.querySelector('.edit-btn')
