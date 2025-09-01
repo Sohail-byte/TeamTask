@@ -87,7 +87,7 @@ notesRouter.put('/:id/update', isAuthenticated, async (req, res) => {
     console.log('PUT body:', req.body)
     const $set = {}
     //this is like doing homweork but you gotta do what you gotta do to learn
-    //this Object.proto type.has own property checks if the object has the property in it like the req.body is an object
+    //this Object.prototype.has own property checks if the object has the property in it like the req.body is an object
     //this checks it that object is empty or preset(if it isnt present then its empty i guess) to update the db with partial data or only
     //with the data that is given in the request
     //this was my explanantion and this is a hard concept and i have not even fully learned it but i have to look this up and how to define good routes and whatnot.

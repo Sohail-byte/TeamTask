@@ -261,7 +261,7 @@ body{
           const content = document.querySelector('.noteContent').textContent
 
           try{
-          const res = await fetch(`/notes/update`, {
+          const res = await fetch(`/collaborations/<%= note.id%>/update`, {
             method: "PUT",
             headers: {
             'Content-Type': 'application/json',

@@ -51,7 +51,7 @@ collaborationsRouter.post('/create',isAuthenticated, async(req, res) =>{
 collaborationsRouter.get('/',isAuthenticated, async(req, res) => {
     const decodedToken = decodeJWTToken(req.cookies.token)
     const userId = decodedToken?.payload?.userId
-    console.log(userId)
+    // console.log(userId)
     try{
 
     // Then check your specific query
@@ -61,7 +61,7 @@ collaborationsRouter.get('/',isAuthenticated, async(req, res) => {
         {'collaborators.user': userId}
     ]
 });
-        console.log(notesFound)
+        // console.log(notesFound)
         res.json({notesFound})
     }catch(e){
         console.log(e)
@@ -76,7 +76,7 @@ collaborationsRouter.get('/:id', isAuthenticated ,async (req, res) => {
     const id = req.params.id
     try{
         const note = await collaborativeNote.findOne({_id: id})
-        console.log(note)
+        // console.log(note)
         res.render('notes/collaborativeNotes/collaborativeNoteView', {note})
     }catch(e){
         console.log(e)
@@ -84,6 +84,40 @@ collaborationsRouter.get('/:id', isAuthenticated ,async (req, res) => {
     }
 
 })
+
+
+collaborationsRouter.put('/:id/update', isAuthenticated, async (req, res) => {
+    const noteId = req.params.id
+    const {title, summary, content} = req.body
+    const $set = {}
+    //check if all this is necessary for this application using ejs beacause the fields will not let you 
+    if (Object.prototype.hasOwnProperty.call(req.body, 'title')) $set.title = req.body.title
+    if (Object.prototype.hasOwnProperty.call(req.body, 'summary')) $set.summary = req.body.summary
+    if (Object.prototype.hasOwnProperty.call(req.body, 'content')) $set.content = req.body.content
+
+    if (Object.keys($set).length === 0) {
+    return res.status(400).json({ msg: 'No fields provided' })
+     }
+
+     try{
+        const updated = await collaborativeNote.findOneAndUpdate(
+            {_id: noteId},
+            {$set}
+        )
+        if(!updated){
+            return res.status(404).json({ msg: 'note not found' })
+        }
+        res.status(200).json({ msg: 'note updated successfully'})
+
+    }catch(e){
+        console.log(e)
+        res.status(500).json({msg: 'failed to update the note'})
+    }
+})
+
+
+
+
 
 //this will take the cookies or whatever and check the user if he has any collaborative 
 // projects and return something
