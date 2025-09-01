@@ -119,6 +119,18 @@ collaborationsRouter.put('/:id/update', isAuthenticated, async (req, res) => {
 
 
 
+//route for deleting the collab note
+collaborationsRouter.delete('/:id/delete', isAuthenticated, async (req, res) => {
+    const noteId = req.params.id
+    try{
+        await collaborativeNote.deleteOne({_id: noteId})
+        res.status(204).send()
+    }catch(e){
+        console.log(e)
+        res.status(500).json({msg : 'failed to delete note'})
+    }
+})
+
 
 
 //this will take the cookies or whatever and check the user if he has any collaborative 
