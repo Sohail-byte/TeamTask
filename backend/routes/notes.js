@@ -52,7 +52,7 @@ notesRouter.delete('/delete/:id',isAuthenticated, async (req, res) => {
     const noteId = req.params.id
     try{
         await Note.deleteOne({_id: noteId})
-    res.status(204).send()
+        res.status(204).send()
     }catch(e){
         console.log(e)
         res.status(500).json({msg : 'failed to delete note'})
