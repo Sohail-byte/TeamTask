@@ -2,6 +2,7 @@ import express from "express";
 import collaborativeNote from '../models/collaboratedNote.js'
 import isAuthenticated from "../utils/middleware/authentication.js";
 import decodeJWTToken from "../utils/decodeToken.js";
+import mongoose from "mongoose";
 const collaborationsRouter = express.Router()
 
 
@@ -50,12 +51,27 @@ collaborationsRouter.post('/create',isAuthenticated, async(req, res) =>{
 collaborationsRouter.get('/',isAuthenticated, async(req, res) => {
     const decodedToken = decodeJWTToken(req.cookies.token)
     const userId = decodedToken?.payload?.userId
+    console.log(userId)
     try{
-        const notesFound = await collaborativeNote.find({
-        
-                {owner: userId},
-                {"collaborators.user": userId}
-        })
+    //     const objectId = new mongoose.Types.ObjectId(userId)
+    //     const notesFound = await collaborativeNote.find({
+    //           $or: [
+    //     {owner: userId},
+    //     {'collaborators.user': userId} // Simpler dot notation
+    // ]
+    //     })
+    const allNotes = await collaborativeNote.find({});
+console.log('All notes:', JSON.stringify(allNotes, null, 2));
+
+// Then check your specific query
+const notesFound = await collaborativeNote.find({
+    $or: [
+        {owner: userId},
+        {'collaborators.user': userId}
+    ]
+});
+// console.log('Notes found:', notesFound);
+// console.log('UserId being searched:', userId);
         console.log(notesFound)
         res.json({notesFound})
     }catch(e){
@@ -71,7 +87,7 @@ collaborationsRouter.get('/:id', isAuthenticated ,async (req, res) => {
     const id = req.params.id
     try{
         const note = await collaborativeNote.findOne({_id: id})
-        // console.log(note)
+        console.log(note)
         res.render('notes/collaborativeNotes/collaborativeNoteView', {note})
     }catch(e){
         console.log(e)

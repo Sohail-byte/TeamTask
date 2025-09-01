@@ -24,7 +24,7 @@ const collaboratedNoteSchema = new mongoose.Schema({
         },
         collaborators: [{
             user: {
-            type: mongoose.Schema.Types.ObjectId,
+            type: String,
             ref: 'User'
             }, 
             permissions: {
