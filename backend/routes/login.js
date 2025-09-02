@@ -49,7 +49,7 @@ loginRouter.post('/login', async (req, res) => {
                 token: crypto.randomBytes(32).toString('hex')
         }).save()
 
-            const url = `<a>${process.env.BASE_URL}/users/${userFound._id}/verify/${verificationToken.token}</a>`
+            const url = `<a href="${process.env.BASE_URL}/users/${userFound._id}/verify/${verificationToken.token}">Click this link</a>`
             await sendEmailAuthentication(email, 'Verify Email', url)
             res.status(400).render('user-forms/login', {error: 'Please verify your email. An email has been sent to your email account'})
         }
