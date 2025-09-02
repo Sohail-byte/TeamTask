@@ -48,7 +48,9 @@ signupRouter.post('/signup', async(req, res)=>{
             userId: newUser._id,
             token: crypto.randomBytes(32).toString('hex')
         }).save()
+        
 
+        
         const url = `<a href="${process.env.BASE_URL}/users/${newUser._id}/verify/${verificationToken.token}">Click this link</a>`
         await sendEmailAuthentication(newUser.email, 'Verify Email', url)
         res.status(201).render('user-forms/signup.ejs', {error: 'Please verify your email. An email has been sent to your email account'})
