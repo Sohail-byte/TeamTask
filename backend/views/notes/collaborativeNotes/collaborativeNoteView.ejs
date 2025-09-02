@@ -219,7 +219,7 @@ body{
 
 
     .collaborators{
-      border: 1px solid red;
+      border: 1px solid var(--glass);
       width: 350px;
       min-height: 200px;
       max-height: 400px;
@@ -228,12 +228,9 @@ body{
       grid-area: col1;
       background-color: var(--panel);
     }
-    .collab-input{
-      display: flex;
-      gap: 10px;
-    }
+
     .collaboratorUsername{
-      width: 70%;
+      width: 100%;
     }
     .addBtn{
       padding: 16px;
@@ -246,12 +243,27 @@ body{
       cursor: pointer;
       transition: all 0.2s ease;
   display: block;
-  width: 25%;
+  width: 50%;
     }
 
     .addBtn:hover {
       transform: translateY(-2px);
       box-shadow: 0 8px 25px rgba(67,56,202,0.3);
+    }
+
+
+    .input-row{
+      display: flex;
+      gap: 5%;
+      margin-top: 10px;
+    }
+    select{
+      width: 50%;
+      background-color: var(--panel);
+      color: var(--white);
+      border-radius: 8px;
+      font-size: 14px;
+      border: 1px solid var(--glass);
     }
     @media (max-width: 600px) {
       .editor-container {
@@ -289,12 +301,17 @@ body{
 
   <section class="collaborators">
     <div class="inner-container">
-      <h1 class="collab-heading">Collaborators</h1>
-      <div class="collab-input">
-        <input type="text" name="collaboratorUsername" class="collaboratorUsername" placeholder="Username...">
-        <button class="addBtn">Add</button>
-      </div>
-    </div>
+        <h1 class="collab-heading">Collaborators</h1>
+        <div class="collab-input">
+          <input type="text" name="collaboratorUsername" class="collaboratorUsername" placeholder="Enter username...">
+          <div class="input-row">
+            <select name="permission" class="permission">
+              <option value="">Permission</option>
+              <option value="">View</option>
+              <option value="edit">View/Edit</option>
+            </select>
+            <button class="addBtn">Add</button>
+          </div>
   </section>
 </main>
   <script>
