@@ -265,6 +265,17 @@ body{
       font-size: 14px;
       border: 1px solid var(--glass);
     }
+    .collaborator{
+      background-color: blue;
+      display: flex;
+      justify-content: space-between;
+    }
+.collaborator-list{
+  padding: 5px;
+  margin-top: 10px;
+  max-height: 160px;
+  overflow: scroll;
+}
     @media (max-width: 600px) {
       .editor-container {
         padding: 24px;
@@ -313,6 +324,32 @@ body{
             <button class="addBtn">Add</button>
           </div>
         </div>
+        <div class="collaborator-list">
+          <div class="collaborator">
+            <p>collaborator</p>
+          <button class="remove-btn" onclick="fetchCollaborators()">remove</button>
+          </div>
+          <div class="collaborator">
+            <p>collaborator</p>
+          <button class="remove-btn">remove</button>
+          </div>
+          <div class="collaborator">
+            <p>collaborator</p>
+          <button class="remove-btn">remove</button>
+          </div>
+          <div class="collaborator">
+            <p>collaborator</p>
+          <button class="remove-btn">remove</button>
+          </div>
+          <div class="collaborator">
+            <p>collaborator</p>
+          <button class="remove-btn">remove</button>
+          </div>
+          <div class="collaborator">
+            <p>collaborator</p>
+          <button class="remove-btn">remove</button>
+          </div>
+        </div>
     </div>
   </div>
  </div>
@@ -357,6 +394,12 @@ body{
           
       } )
 
+
+      const fetchCollaborators = async () => {
+          const res = await fetch('/collaborations/<%= note.id %>/collaborators')
+          const data = await res.json()
+          console.log(data)
+      }
 
   </script>
 </body>
