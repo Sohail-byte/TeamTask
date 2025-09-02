@@ -3,6 +3,7 @@ import collaborativeNote from '../models/collaboratedNote.js'
 import isAuthenticated from "../utils/middleware/authentication.js";
 import decodeJWTToken from "../utils/decodeToken.js";
 import mongoose from "mongoose";
+import User from '../models/user.js'
 const collaborationsRouter = express.Router()
 
 
@@ -142,13 +143,36 @@ collaborationsRouter.get('/:id/collaborators', isAuthenticated, async(req, res) 
         res.json({collaboraters})
     }catch(e){
         console.log(e)
-        res.status(500).json({msg : 'failed to delete note'})
+        res.status(500).json({msg : 'failed'})
     }
 } )
 
 
 
-//
+//adding collaborators to a note
+collaborationsRouter.post('/:id/collaborator/add/:userName', async(req,res)=>{
+    const {id, userName} = req.params
+    try{
+        const user = await User.findOne({userName})
+        const userId = user._id
+        const noteFound = await collaborativeNote.findOneAndUpdate(
+                      {_id: id}, 
+                      {
+                        $addToSet: {
+                          collaborators: {
+                            user: userId,
+                            permissions: 'read'
+                          }
+                        }
+                      }
+                    )
+        console.log(noteFound)
+        res.send('added successfully')
+    }catch(e){
+        console.log(e)
+        res.status(500).json({msg : 'failed to add collaborator'})
+    }
+})
 
 
 
