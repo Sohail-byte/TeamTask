@@ -133,9 +133,22 @@ collaborationsRouter.delete('/:id/delete', isAuthenticated, async (req, res) => 
 
 
 
-//this will take the cookies or whatever and check the user if he has any collaborative 
-// projects and return something
+//making route to retrieve the collaborators of a certain note
+collaborationsRouter.get('/:id/collaborators', isAuthenticated, async(req, res) =>{
+    const id = req.params.id
+    try{
+        const note = await collaborativeNote.findOne({_id: id})
+        const collaboraters = note.collaborators
+        res.json({collaboraters})
+    }catch(e){
+        console.log(e)
+        res.status(500).json({msg : 'failed to delete note'})
+    }
+} )
 
+
+
+//
 
 
 
