@@ -321,7 +321,7 @@ body{
               <option value="view">View</option>
               <option value="edit">View/Edit</option>
             </select>
-            <button class="addBtn">Add</button>
+            <button class="addBtn" onclick="addCollaborator()">Add</button>
           </div>
         </div>
         <div class="collaborator-list">
@@ -392,21 +392,40 @@ body{
       } )
 
 
+      //for fetching the existing collaborators
+
       const fetchCollaborators = async () => {
           const res = await fetch('/collaborations/<%= note.id %>/collaborators')
           const data = await res.json()
           console.log(data)
       }
-      fetchCollaborators()
+      // fetchCollaborators()
       //temporary
       const collaboratorCard =  `<div class="collaborator">
             <p>collaborator</p>
           <button class="remove-btn" onclick="fetchCollaborators()">remove</button>
           </div>`
+       //---------------------------   
 
+      //for rendering the collaborator list
       const collaboratorList = document.querySelector('.collaborator-list')
       
 
+      //getting value from the addCollaboratorInput and making a POST request
+      
+      const addCollaboratorInput = document.querySelector('.collaboratorUsername')
+          
+      const addCollaborator = async () => {
+        const userName = addCollaboratorInput.value
+        try{
+          const res = await fetch(`/collaborations/<%= note.id %>/collaborator/add/${userName}`, {
+            method: 'POST',
+          })
+          console.log(res)
+        }catch(e){
+          console.log(e)
+        }
+      }
 
 
 

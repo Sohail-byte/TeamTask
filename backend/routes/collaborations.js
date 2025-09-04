@@ -150,12 +150,11 @@ collaborationsRouter.get('/:id/collaborators', isAuthenticated, async(req, res) 
 
 
 //adding collaborators to a note
-
-
 //when taking input from user, make sure to transform the input into lowercase, and also display any errors
 //if the user is not found
-collaborationsRouter.post('/:id/collaborator/add/:userName',isAuthenticated, async(req,res)=>{
+collaborationsRouter.post('/:id/collaborator/add/:userName', async(req,res)=>{
     const {id, userName} = req.params
+    console.log(id, userName)
     try{
         const user = await User.findOne({userName})
         if(!user){
