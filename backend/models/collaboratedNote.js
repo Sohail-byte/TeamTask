@@ -30,8 +30,13 @@ const collaboratedNoteSchema = new mongoose.Schema({
             permissions: {
                 type: String,
                 required: true,
-                enum: ['read', 'write', 'edit', 'view'],
+                enum: ['edit', 'view'],
                 default: 'view'
+            },
+            username:{
+                type: String,
+                required: true,
+                unique: true,
             }
         }]
 })
