@@ -314,7 +314,7 @@ body{
     <div class="inner-container">
         <h1 class="collab-heading">Collaborators</h1>
         <div class="collab-input">
-          <input type="text" name="collaboratorUsername" class="collaboratorUsername" placeholder="Enter username...">
+          <input type="text" name="collaboratorUsername" class="collaboratorUsername" placeholder="Enter username..." required>
           <div class="input-row">
             <select name="permission" class="permission">
               <option value="">Permission</option>
@@ -416,10 +416,12 @@ body{
       const addCollaboratorInput = document.querySelector('.collaboratorUsername')
           
       const addCollaborator = async () => {
-        const userName = addCollaboratorInput.value
+        const userName = String(addCollaboratorInput.value)
+        if(userName === '') return alert('Input cannot be empty') 
+        
         try{
           const res = await fetch(`/collaborations/<%= note.id %>/collaborator/add/${userName}`, {
-            method: 'POST',
+            method: 'PATCH',
           })
           console.log(res)
         }catch(e){

@@ -152,11 +152,16 @@ collaborationsRouter.get('/:id/collaborators', isAuthenticated, async(req, res) 
 //adding collaborators to a note
 //when taking input from user, make sure to transform the input into lowercase, and also display any errors
 //if the user is not found
-collaborationsRouter.post('/:id/collaborator/add/:userName', async(req,res)=>{
+collaborationsRouter.patch('/:id/collaborator/add/:userName', async(req,res)=>{
     const {id, userName} = req.params
-    console.log(id, userName)
     try{
+        const exisitngCollaborator = await collaborativeNote.exists({_id: id, 'collaborators.username': userName})
+
+        if(exisitngCollaborator != null){
+            return res.status(409).json({msg: 'Collaborater already exists'})
+        }
         const user = await User.findOne({userName})
+
         if(!user){
             return res.status(404).json({error: 'user not found'})
         }
@@ -173,7 +178,7 @@ collaborationsRouter.post('/:id/collaborator/add/:userName', async(req,res)=>{
                         }
                       }
                     )
-        res.status(200).json({res: 'User added successfully'})
+        res.status(200).json({res: 'Collaborator added successfully'})
     }catch(e){
         console.log(e)
         res.status(500).json({msg : 'failed to add collaborator'})
