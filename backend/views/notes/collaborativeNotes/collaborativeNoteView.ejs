@@ -266,15 +266,26 @@ body{
       border: 1px solid var(--glass);
     }
     .collaborator{
-      background-color: blue;
       display: flex;
       justify-content: space-between;
+      background: rgba(255,255,255,0.02);
+      border-radius: 8px;
+      padding-left: 5px;
     }
 .collaborator-list{
   padding: 5px;
   margin-top: 10px;
   max-height: 160px;
   overflow: scroll;
+}
+.collaborator{
+  margin: 5px;
+}
+.remove-btn{
+  border-radius: 8px;
+  border: none;
+  background-color: red;
+  color: white;
 }
     @media (max-width: 600px) {
       .editor-container {
@@ -325,27 +336,6 @@ body{
           </div>
         </div>
         <div class="collaborator-list">
-          
-          <div class="collaborator">
-            <p>collaborator</p>
-          <button class="remove-btn">remove</button>
-          </div>
-          <div class="collaborator">
-            <p>collaborator</p>
-          <button class="remove-btn">remove</button>
-          </div>
-          <div class="collaborator">
-            <p>collaborator</p>
-          <button class="remove-btn">remove</button>
-          </div>
-          <div class="collaborator">
-            <p>collaborator</p>
-          <button class="remove-btn">remove</button>
-          </div>
-          <div class="collaborator">
-            <p>collaborator</p>
-          <button class="remove-btn">remove</button>
-          </div>
         </div>
     </div>
   </div>
@@ -393,43 +383,65 @@ body{
 
 
       //for fetching the existing collaborators
-
       const fetchCollaborators = async () => {
           const res = await fetch('/collaborations/<%= note.id %>/collaborators')
           const data = await res.json()
           console.log(data)
+          generateCollaboratorsHtml(data)
       }
-      // fetchCollaborators()
-      //temporary
-      const collaboratorCard =  `<div class="collaborator">
-            <p>collaborator</p>
-          <button class="remove-btn" onclick="fetchCollaborators()">remove</button>
-          </div>`
-       //---------------------------   
+      fetchCollaborators()
 
-      //for rendering the collaborator list
       const collaboratorList = document.querySelector('.collaborator-list')
+      let collaboratorsHtml = ''
+      const generateCollaboratorsHtml = async (data) => {
+        data.forEach(collaborator => {
+          const username = collaborator.username
+          collaboratorsHtml += `
+          <div class="collaborator">
+            <p>${username} - ${collaborator.permissions}</p>
+            <button class="remove-btn" onclick="removeCollaborator('${username}')">remove</button>
+          </div>`
+        })
+        collaboratorList.innerHTML = collaboratorsHtml
+      }
+      //for rendering the collaborator list
       
+      
+
 
       //getting value from the addCollaboratorInput and making a POST request
-      
       const addCollaboratorInput = document.querySelector('.collaboratorUsername')
           
       const addCollaborator = async () => {
-        const userName = String(addCollaboratorInput.value)
+        const userName = String(addCollaboratorInput.value).toLocaleLowerCase()
         if(userName === '') return alert('Input cannot be empty') 
-        
         try{
           const res = await fetch(`/collaborations/<%= note.id %>/collaborator/add/${userName}`, {
             method: 'PATCH',
           })
-          console.log(res)
+          if(res.ok){
+            alert('Collaborator added Sucessfully')
+            fetchCollaborators()
+          }else {
+            if (res.status === 404) alert("User not found")
+            if (res.status === 409) alert("User is already a Collaborator")
+          }
         }catch(e){
           console.log(e)
         }
       }
 
 
+
+
+
+
+
+      //function for removing certain collaborators
+      const removeCollaborator = async(username) =>{
+        console.log('removed', username)
+        // fetchCollaborators()
+      }
 
   </script>
 </body>

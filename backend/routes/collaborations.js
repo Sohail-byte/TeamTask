@@ -140,7 +140,7 @@ collaborationsRouter.get('/:id/collaborators', isAuthenticated, async(req, res) 
     try{
         const note = await collaborativeNote.findOne({_id: id})
         const collaboraters = note.collaborators
-        res.json({collaboraters})
+        res.json(collaboraters)
     }catch(e){
         console.log(e)
         res.status(500).json({msg : 'failed'})
