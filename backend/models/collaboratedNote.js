@@ -29,14 +29,13 @@ const collaboratedNoteSchema = new mongoose.Schema({
             }, 
             permissions: {
                 type: String,
-                required: true,
                 enum: ['edit', 'view'],
                 default: 'view'
             },
             username:{
                 type: String,
-                required: true,
-                unique: true,
+                sparse: true,  
+                unique: true
             }
         }]
 })

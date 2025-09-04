@@ -325,10 +325,7 @@ body{
           </div>
         </div>
         <div class="collaborator-list">
-          <div class="collaborator">
-            <p>collaborator</p>
-          <button class="remove-btn" onclick="fetchCollaborators()">remove</button>
-          </div>
+          
           <div class="collaborator">
             <p>collaborator</p>
           <button class="remove-btn">remove</button>
@@ -400,6 +397,18 @@ body{
           const data = await res.json()
           console.log(data)
       }
+      fetchCollaborators()
+      //temporary
+      const collaboratorCard =  `<div class="collaborator">
+            <p>collaborator</p>
+          <button class="remove-btn" onclick="fetchCollaborators()">remove</button>
+          </div>`
+
+      const collaboratorList = document.querySelector('.collaborator-list')
+      
+
+
+
 
   </script>
 </body>
