@@ -149,10 +149,8 @@ collaborationsRouter.get('/:id/collaborators', isAuthenticated, async(req, res) 
 
 
 
-//adding collaborators to a note
-//when taking input from user, make sure to transform the input into lowercase, and also display any errors
-//if the user is not found
-collaborationsRouter.patch('/:id/collaborator/add/:userName', async(req,res)=>{
+//route for adding collaborator to the fucking note
+collaborationsRouter.patch('/:id/collaborator/add/:userName',isAuthenticated ,async(req,res)=>{
     const {id, userName} = req.params
     try{
         const exisitngCollaborator = await collaborativeNote.exists({_id: id, 'collaborators.username': userName})
@@ -185,6 +183,29 @@ collaborationsRouter.patch('/:id/collaborator/add/:userName', async(req,res)=>{
     }
 })
 
+
+
+
+
+
+//route for deleting the collaborator from the note
+collaborationsRouter.delete('/:id/collaborator/remove/:userName', isAuthenticated, async (req, res) => {
+    const {id, userName} = req.params
+    console.log(id, userName)
+    try{
+        await collaborativeNote.updateOne(
+            {_id: id},
+            {
+                $pull: {
+                    collaborators: {username: userName}
+                }
+            }
+        )
+        res.status(200).json({msg: "Successfully removed collaborator"})
+    }catch(e){
+        console.log(e)
+    }
+} )
 
 
 

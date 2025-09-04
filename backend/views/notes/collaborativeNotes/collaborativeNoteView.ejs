@@ -386,14 +386,15 @@ body{
       const fetchCollaborators = async () => {
           const res = await fetch('/collaborations/<%= note.id %>/collaborators')
           const data = await res.json()
-          console.log(data)
+          // console.log(data)
           generateCollaboratorsHtml(data)
       }
       fetchCollaborators()
 
       const collaboratorList = document.querySelector('.collaborator-list')
-      let collaboratorsHtml = ''
+      
       const generateCollaboratorsHtml = async (data) => {
+        let collaboratorsHtml = ''
         data.forEach(collaborator => {
           const username = collaborator.username
           collaboratorsHtml += `
@@ -439,8 +440,20 @@ body{
 
       //function for removing certain collaborators
       const removeCollaborator = async(username) =>{
-        console.log('removed', username)
-        // fetchCollaborators()
+        const userName = username
+        try{
+          const res = await fetch(`/collaborations/<%= note.id %>/collaborator/remove/${userName}`, {
+            method: "DELETE"
+          })
+          if(!res.ok){
+            alert('Failed to remove collaborator.')
+          } 
+            else alert('Removed the collaborator.')
+            fetchCollaborators()
+        }catch(e){
+          console.log(e)
+        }
+        
       }
 
   </script>
