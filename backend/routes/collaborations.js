@@ -66,7 +66,7 @@ collaborationsRouter.get('/:id', isAuthenticated ,async (req, res) => {
     try{
         const note = await collaborativeNote.findOne({_id: id})
         // console.log(note)
-        res.render('notes/collaborativeNotes/collaborativeNoteView', {note})
+        res.render('notes/collaborativeNotes/collaborativeNoteOwnerView', {note})
     }catch(e){
         console.log(e)
         res.status(500).json({msg: e})
