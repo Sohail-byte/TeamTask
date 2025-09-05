@@ -15,14 +15,12 @@ collaborationsRouter.get('/',isAuthenticated, async(req, res) => {
     const decodedToken = decodeJWTToken(req.cookies.token)
     const userId = decodedToken?.payload?.userId
     try{
-    // Then check your specific query
-    const notesFound = await collaborativeNote.find({
-    $or: [
-        {owner: userId},
-        {'collaborators.user': userId}
-    ]
-});
-        res.json({notesFound})
+    //getting the notes where the user is the owner of the notes
+    const notesFoundOwner = await collaborativeNote.find({owner: userId})
+    //getting the notes where the user is collaborators of note
+    const notesFoundCollaborator = await collaborativeNote.find({'collaborators.user': userId})
+
+        res.json({notesFoundOwner, notesFoundCollaborator})
     }catch(e){
         console.log(e)
         res.status(500).json({msg: e})

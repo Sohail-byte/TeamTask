@@ -167,20 +167,23 @@
 
 
     <section>
-      <div class="projects Collaborative-projects">
+      <div class=" Collaborative-projects">
+         <p>Your Collaborative Notes:</p>
+        <div class="notesOwner projects">
+        </div>
+        <p>Your Collaborations:</p>
+        <div class="notesCollaborator projects">
+        </div>
       </div>
     </section>
 
-    <!-- optional empty state (uncomment / replace above projects if no projects) -->
-    <!--
-    <section>
-      
-    </section>
-    -->
   </main>
   <script>
         const projectContainer = document.querySelector('.projects')
         const collaborativProjectContainer = document.querySelector('.Collaborative-projects')
+
+        const notesOwnerContainer = document.querySelector('.notesOwner')
+        const notesCollaboratorContainer = document.querySelector('.notesCollaborator')
         //fetching user projects  
         //check what if the res contains empty response
         async function fetchUserProjects(){
@@ -222,26 +225,45 @@
           console.log(e)
           alert('fetching projects failed')
         }
+      }
 
-        }
-        async function fetchCollaborativeProjects(){
+
+
+      //fetching the collaborative notes
+      //this returns two objects, one with notes where the user is owner, and there will be delete button with it.
+      //and one where the user is the collaborator, it will not have the delete note button.
+
+
+      async function fetchCollaborativeProjects(){
           try{
             const res = await fetch('/collaborations');
             const data = await res.json();
-            const notes = data.notesFound
-            // console.log(data)
-            // const data = notes.notes.json()
-            let html = ''
-            if(!notes.length){
-              html = `<div class="empty">
+            const notesOwner = data.notesFoundOwner
+            const notesCollaborator = data.notesFoundCollaborator
+            console.log(notesOwner, notesCollaborator)
+            let notesOwnerHtml = ''
+            let notesCollaboratorHtml = ''
+
+            if(!notesOwner.length){
+              notesOwnerHtml = `<div class="empty">
         <strong>No Collaborative Notes Yet</strong>
         <p>Create your first collaborative note to organize tasks and collaborate with your team.</p>
       </div>`
-            projectContainer.innerHTML = html
+            notesOwnerContainer.innerHTML = notesOwnerHtml
             }
-            const generateHtml = (notes) => {
+
+            if(!notesCollaborator.length){
+              notesCollaboratorHtml = `<div class="empty">
+        <strong>No Collaborative Notes Yet</strong>
+        <p>Create your first collaborative note to organize tasks and collaborate with your team.</p>
+      </div>`
+            notesCollaboratorContainer.innerHTML = notesCollaboratorHtml
+            }
+
+
+            const generateNoteOwnerHtml = (notes) => {
             notes.forEach(note => {
-            html+= `
+            notesOwnerHtml+= `
               <div class="project">
                 <div class="action-btns">
                   <a href="/collaborations/${note._id}" class="btn">✏️</a>
@@ -257,8 +279,26 @@
                </div>`
             })
         } 
-            await generateHtml(notes)
-            collaborativProjectContainer.innerHTML = html
+
+            const generateNoteCollaboratorHtml = (notes) => {
+            notes.forEach(note => {
+            notesCollaboratorHtml+= `
+              <div class="project">
+                <div class="action-btns">
+                  <a href="/collaborations/${note._id}" class="btn">✏️</a>
+                </div>
+              <h3>${note.title}</h3>
+              <p>${note.summary}</p>
+               </div>`
+            })
+        } 
+
+
+            await generateNoteOwnerHtml(notesOwner)
+            await generateNoteCollaboratorHtml(notesCollaborator)
+
+            notesOwnerContainer.innerHTML = notesOwnerHtml
+            notesCollaboratorContainer.innerHTML = notesCollaboratorHtml
         }catch(e){
           console.log(e)
           alert('fetching projects failed', e)
