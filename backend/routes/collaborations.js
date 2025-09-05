@@ -66,12 +66,13 @@ collaborationsRouter.get('/:id', isAuthenticated ,async (req, res) => {
     const userId = decodedToken?.payload?.userId
     const id = req.params.id
     try{
+        //check if the users is in the collaborators list otherwise display un authorized
         const note = await collaborativeNote.findOne({_id: id})
         const ownerId = note.owner
         if(!ownerId.equals(userId)){
             return res.render('notes/collaborativeNotes/collaborativeNoteCollaboratorView', {note})
         }
-        
+
         res.render('notes/collaborativeNotes/collaborativeNoteOwnerView', {note})
     }catch(e){
         console.log(e)
