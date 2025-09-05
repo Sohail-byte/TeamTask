@@ -62,10 +62,16 @@ collaborationsRouter.post('/create',isAuthenticated, async(req, res) =>{
 
 //getting a note from database to view
 collaborationsRouter.get('/:id', isAuthenticated ,async (req, res) => {
+    const decodedToken = decodeJWTToken(req.cookies.token)
+    const userId = decodedToken?.payload?.userId
     const id = req.params.id
     try{
         const note = await collaborativeNote.findOne({_id: id})
-        // console.log(note)
+        const ownerId = note.owner
+        if(!ownerId.equals(userId)){
+            return res.render('notes/collaborativeNotes/collaborativeNoteCollaboratorView', {note})
+        }
+        
         res.render('notes/collaborativeNotes/collaborativeNoteOwnerView', {note})
     }catch(e){
         console.log(e)
