@@ -42,7 +42,7 @@ app.use((req, res) => {
 
 //trying to implement collaboration with the help of websockets
 io.on('connection', (socket) => {
-    console.log('a client connected')
+    io.emit('connected', 'connected successfully')
 })
 
 

@@ -342,6 +342,13 @@ body{
   </div>
  </div>
 </main>
+<script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
+<script>
+        const socket = io()
+        socket.on('connected', (msg) => {
+          console.log(msg)
+        })
+</script>
   <script>
     const editBtn = document.querySelector('.edit-btn')
     const submitBtn = document.querySelector('.submit-btn')
