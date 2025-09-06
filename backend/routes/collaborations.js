@@ -83,7 +83,7 @@ collaborationsRouter.get('/:id', isAuthenticated ,async (req, res) => {
                 // console.log({username, permissions})
                 return res.render('notes/collaborativeNotes/collaborativeNoteCollaboratorView', {note, permissions})
             } else{
-                return res.status(401).json({msg: 'unauthorized'})
+                return res.status(401).redirect('/dashboard')
             }
             
             
