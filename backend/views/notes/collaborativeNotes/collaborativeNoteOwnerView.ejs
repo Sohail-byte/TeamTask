@@ -412,13 +412,20 @@ body{
 
       //getting value from the addCollaboratorInput and making a POST request
       const addCollaboratorInput = document.querySelector('.collaboratorUsername')
+      const collaboratorPermission = document.querySelector('.permission')
           
       const addCollaborator = async () => {
         const userName = String(addCollaboratorInput.value).toLocaleLowerCase()
+        const permission = collaboratorPermission.value
+        console.log(permission)
         if(userName === '') return alert('Input cannot be empty') 
         try{
           const res = await fetch(`/collaborations/<%= note.id %>/collaborator/add/${userName}`, {
             method: 'PATCH',
+            headers: {
+            'Content-Type': 'application/json'
+          },
+            body: JSON.stringify({permission})
           })
           if(res.ok){
             alert('Collaborator added Sucessfully')

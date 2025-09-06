@@ -144,17 +144,16 @@ collaborationsRouter.get('/:id/collaborators', isAuthenticated, async(req, res) 
 
 
 
-//route for adding collaborator to the fucking note
+//route for adding collaborator to the collaborative note
 collaborationsRouter.patch('/:id/collaborator/add/:userName',isAuthenticated ,async(req,res)=>{
     const {id, userName} = req.params
+    const permission = req.body.permission
     try{
         const exisitngCollaborator = await collaborativeNote.exists({_id: id, 'collaborators.username': userName})
-
         if(exisitngCollaborator != null){
             return res.status(409).json({msg: 'Collaborater already exists'})
         }
         const user = await User.findOne({userName})
-
         if(!user){
             return res.status(404).json({error: 'user not found'})
         }
@@ -165,7 +164,7 @@ collaborationsRouter.patch('/:id/collaborator/add/:userName',isAuthenticated ,as
                         $addToSet: {
                           collaborators: {
                             user: userId,
-                            permissions: 'read',
+                            permissions: permission,
                             username: userName
                           }
                         }
