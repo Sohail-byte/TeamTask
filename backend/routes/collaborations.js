@@ -43,13 +43,16 @@ collaborationsRouter.post('/create',isAuthenticated, async(req, res) =>{
 
     const decodedToken = decodeJWTToken(req.cookies.token)
     const userId = decodedToken?.payload?.userId
-
     try{
+        const owner = await User.findOne({_id: userId})
+        const ownerName = owner.userName
+        console.log(ownerName)
         const newCollaborativeNote = await new collaborativeNote({
             title,
             summary,
             content,
-            owner: userId
+            owner: userId,
+            ownerUsername: ownerName
         }).save()
         res.status(201).redirect('/dashboard')
     }catch(e){
