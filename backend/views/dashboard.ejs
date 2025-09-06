@@ -281,6 +281,7 @@
 
             const generateNoteCollaboratorHtml = (notes) => {
             notes.forEach(note => {
+              console.log(note)
             notesCollaboratorHtml+= `
               <div class="project">
                 <div class="action-btns">
@@ -288,7 +289,7 @@
                 </div>
               <h3>${note.title}</h3>
               <p>${note.summary}</p>
-              <p>Owner: ${note.ownerUserName}</p>
+              <p class="owner">Owner: ${note.ownerUsername}</p>
                </div>`
             })
         } 
