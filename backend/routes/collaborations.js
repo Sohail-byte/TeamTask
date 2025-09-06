@@ -76,16 +76,14 @@ collaborationsRouter.get('/:id', isAuthenticated ,async (req, res) => {
         const ownerId = note.owner
         if(!ownerId.equals(userId)){
             //send the user which is the collaborator in this response
-
-
-
-
-
+            
             const collaborator = note.collaborators.find(collaborator => collaborator.user === userId)
             if(collaborator){
                 const {username, permissions} = collaborator
-                console.log({username, permissions})
+                // console.log({username, permissions})
                 return res.render('notes/collaborativeNotes/collaborativeNoteCollaboratorView', {note, permissions})
+            } else{
+                return res.status(401).json({msg: 'unauthorized'})
             }
             
             
