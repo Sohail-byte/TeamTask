@@ -348,6 +348,10 @@ body{
         socket.on('connected', (msg) => {
           console.log(msg)
         })
+        socket.emit('join-room', "<%= note.id %>")
+        socket.on('joined-room', (roomId) => {
+          console.log(roomId)
+        })
 </script>
   <script>
     const editBtn = document.querySelector('.edit-btn')

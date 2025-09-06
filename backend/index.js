@@ -43,6 +43,11 @@ app.use((req, res) => {
 //trying to implement collaboration with the help of websockets
 io.on('connection', (socket) => {
     io.emit('connected', 'connected successfully')
+
+    socket.on('join-room', (roomId) => {
+        socket.join(roomId)
+        io.emit('joined-room', roomId)
+    })
 })
 
 
