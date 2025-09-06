@@ -19,6 +19,8 @@ dashboardRouter.get('/dashboard', isAuthenticated, async (req, res) => {
    
 })
 
+
+
 export default dashboardRouter
 
 //made a seperate file about the dashboard route. adding functionality to queryyt the notes of the user when loading the database. have to make the notes model and crud functionality for it and ajax request the notes from the database and display them on the page

@@ -20,6 +20,7 @@ app.set('view engine', 'ejs')
 app.use(bodyParser.json())
 app.use(express.urlencoded())
 app.use(cookieParser())
+app.use(express.static('public'))
 
 //rendering the landing page
 //I have used EJS and server side rendering, not because I planned for it,
@@ -34,14 +35,24 @@ app.use(emailAuthenticationRouter)
 app.use(dashboardRouter)
 app.use('/notes', notesRouter)
 app.use('/collaborations', collaborationsRouter)
-
+app.use((req, res) => {
+  res.status(404).send('404 Not Found')
+})
 
 
 //trying to implement collaboration with the help of websockets
-
 io.on('connection', (socket) => {
     console.log('a client connected')
 })
+
+
+
+
+
+
+
+
+
 
 
 const PORT = process.env.PORT
