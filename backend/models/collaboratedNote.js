@@ -18,6 +18,9 @@ const collaboratedNoteSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User'
         },
+        ownerUsername: {
+            type: String,
+        },
         dateCreated:{
             type: Date,
             default: new Date
