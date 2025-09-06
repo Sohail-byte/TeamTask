@@ -417,7 +417,10 @@ body{
       const addCollaborator = async () => {
         const userName = String(addCollaboratorInput.value).toLocaleLowerCase()
         const permission = collaboratorPermission.value
+        
         if(userName === '') return alert('Input cannot be empty') 
+        if(permission === '') return alert('Please select a permission for the collaborator') 
+        
         try{
           const res = await fetch(`/collaborations/<%= note.id %>/collaborator/add/${userName}`, {
             method: 'PATCH',
