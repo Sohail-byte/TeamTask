@@ -65,15 +65,30 @@ collaborationsRouter.post('/create',isAuthenticated, async(req, res) =>{
 
 //getting a note from database to view
 collaborationsRouter.get('/:id', isAuthenticated ,async (req, res) => {
+    const noteId = req.params.id
+
     const decodedToken = decodeJWTToken(req.cookies.token)
     const userId = decodedToken?.payload?.userId
-    const id = req.params.id
+    
     try{
         //check if the users is in the collaborators list otherwise display un authorized
-        const note = await collaborativeNote.findOne({_id: id})
+        const note = await collaborativeNote.findOne({_id: noteId})
         const ownerId = note.owner
         if(!ownerId.equals(userId)){
-            return res.render('notes/collaborativeNotes/collaborativeNoteCollaboratorView', {note})
+            //send the user which is the collaborator in this response
+
+
+
+
+
+            const collaborator = note.collaborators.find(collaborator => collaborator.user === userId)
+            if(collaborator){
+                const {username, permissions} = collaborator
+                console.log({username, permissions})
+                return res.render('notes/collaborativeNotes/collaborativeNoteCollaboratorView', {note, permissions})
+            }
+            
+            
         }
 
         res.render('notes/collaborativeNotes/collaborativeNoteOwnerView', {note})

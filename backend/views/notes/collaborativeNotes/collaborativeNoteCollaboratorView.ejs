@@ -307,9 +307,13 @@ body{
 <body>
     <main>
   <div class="editor-container">
-    <div class="note-bar"><h1>Collaborative Note</h1> <button class="btn edit-btn">Edit</button></div>
-    
+    <div class="note-bar"><h1>Collaborative Note</h1>
 
+
+      <%if(permissions === 'edit') {%>
+     <button class="btn edit-btn">Edit</button>
+        <% } %>
+</div>
         <label for="noteTitle">Title</label>
         <pre class="noteTitle text-view" name="noteTitle"><%= note.title %></pre>
   
@@ -321,26 +325,8 @@ body{
           <button class="submit-btn invis">Update</button>
   </div>
 
-  <!-- <div class="collaborators">
-    <div class="inner-container">
-        <h1 class="collab-heading">Collaborators</h1>
-        <div class="collab-input">
-          <input type="text" name="collaboratorUsername" class="collaboratorUsername" placeholder="Enter username..." required>
-          <div class="input-row">
-            <select name="permission" class="permission">
-              <option value="">Permission</option>
-              <option value="view">View</option>
-              <option value="edit">View/Edit</option>
-            </select>
-            <button class="addBtn" onclick="addCollaborator()">Add</button>
-          </div>
-        </div>
-        <div class="collaborator-list">
-        </div>
-    </div>
-  </div>
- </div> -->
 </main>
+<%if(permissions === 'edit') {%>
   <script>
     const editBtn = document.querySelector('.edit-btn')
     const submitBtn = document.querySelector('.submit-btn')
@@ -380,83 +366,8 @@ body{
           }
           
       } )
-
-
-      //for fetching the existing collaborators
-      const fetchCollaborators = async () => {
-          const res = await fetch('/collaborations/<%= note.id %>/collaborators')
-          const data = await res.json()
-          // console.log(data)
-          generateCollaboratorsHtml(data)
-      }
-      fetchCollaborators()
-
-      const collaboratorList = document.querySelector('.collaborator-list')
-      
-      const generateCollaboratorsHtml = async (data) => {
-        let collaboratorsHtml = ''
-        data.forEach(collaborator => {
-          const username = collaborator.username
-          collaboratorsHtml += `
-          <div class="collaborator">
-            <p>${username} - ${collaborator.permissions}</p>
-            <button class="remove-btn" onclick="removeCollaborator('${username}')">remove</button>
-          </div>`
-        })
-        collaboratorList.innerHTML = collaboratorsHtml
-      }
-      //for rendering the collaborator list
-      
-      
-
-
-      //getting value from the addCollaboratorInput and making a POST request
-      const addCollaboratorInput = document.querySelector('.collaboratorUsername')
-          
-      const addCollaborator = async () => {
-        const userName = String(addCollaboratorInput.value).toLocaleLowerCase()
-        if(userName === '') return alert('Input cannot be empty') 
-        try{
-          const res = await fetch(`/collaborations/<%= note.id %>/collaborator/add/${userName}`, {
-            method: 'PATCH',
-          })
-          if(res.ok){
-            alert('Collaborator added Sucessfully')
-            fetchCollaborators()
-          }else {
-            if (res.status === 404) alert("User not found")
-            if (res.status === 409) alert("User is already a Collaborator")
-          }
-        }catch(e){
-          console.log(e)
-        }
-      }
-
-
-
-
-
-
-
-      //function for removing certain collaborators
-      const removeCollaborator = async(username) =>{
-        const userName = username
-        try{
-          const res = await fetch(`/collaborations/<%= note.id %>/collaborator/remove/${userName}`, {
-            method: "DELETE"
-          })
-          if(!res.ok){
-            alert('Failed to remove collaborator.')
-          } 
-            else alert('Removed the collaborator.')
-            fetchCollaborators()
-        }catch(e){
-          console.log(e)
-        }
-        
-      }
-
   </script>
+  <% } %>
 </body>
 </html>
 
