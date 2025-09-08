@@ -11,6 +11,9 @@ import emailAuthenticationRouter from './routes/emailVerification.js'
 import dashboardRouter from './routes/dashboard.js'
 import notesRouter from './routes/notes.js'
 import collaborationsRouter from './routes/collaborations.js'
+import sockethandling from './utils/socketHandler.js'
+
+
 
 const app = express()
 const server = createServer(app)
@@ -41,16 +44,8 @@ app.use((req, res) => {
 
 
 //trying to implement collaboration with the help of websockets
-io.on('connection', (socket) => {
-    io.emit('connected', 'connected successfully')
 
-    socket.on('join-room', (roomId) => {
-        socket.join(roomId)
-        io.emit('joined-room', roomId)
-    })
-})
-
-
+sockethandling(io)
 
 
 

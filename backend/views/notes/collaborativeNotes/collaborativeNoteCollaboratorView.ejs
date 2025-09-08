@@ -340,8 +340,14 @@ body{
         })
 
 
-        const handleChange = async(content) =>{
-            socket.emit('noteInput', JSON.stringify(content))
+        const handleTitleChange = async(content) =>{
+            socket.emit('noteTitleInput', JSON.stringify(content))
+        }
+        const handleSummaryChange = async(content) =>{
+            socket.emit('noteSummaryInput', JSON.stringify(content))
+        }
+        const handleContentChange = async(content) =>{
+            socket.emit('noteContentInput', JSON.stringify(content))
         }
 
 

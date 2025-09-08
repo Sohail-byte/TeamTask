@@ -312,7 +312,7 @@ body{
     
 
         <label for="noteTitle">Title</label>
-        <pre class="noteTitle text-view" name="noteTitle" oninput="console.log('input detected')"><%= note.title %></pre>
+        <pre class="noteTitle text-view" name="noteTitle" oninput="handleTitleChange(this.textContent)"><%= note.title %></pre>
   
         <label for="noteSummary">Summary</label>
         <pre class="noteSummary text-view" name="noteSummary"><%= note.summary %></pre>
@@ -356,8 +356,15 @@ body{
         })
 
 
-        const handleChange = async(content) =>{
-            socket.emit('noteInput', JSON.stringify(content))
+        const handleTitleChange = async(content) =>{
+            socket.emit('noteTitleInput', JSON.stringify(content))
+            console.log(content)
+        }
+        const handleSummaryChange = async(content) =>{
+            socket.emit('noteSummaryInput', JSON.stringify(content))
+        }
+        const handleContentChange = async(content) =>{
+            socket.emit('noteContentInput', JSON.stringify(content))
         }
 
 
