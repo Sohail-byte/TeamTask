@@ -312,7 +312,7 @@ body{
     
 
         <label for="noteTitle">Title</label>
-        <pre class="noteTitle text-view" name="noteTitle"><%= note.title %></pre>
+        <pre class="noteTitle text-view" name="noteTitle" oninput="console.log('input detected')"><%= note.title %></pre>
   
         <label for="noteSummary">Summary</label>
         <pre class="noteSummary text-view" name="noteSummary"><%= note.summary %></pre>
@@ -321,7 +321,7 @@ body{
           <pre class="noteContent text-view" name="noteContent"><%= note.content %></pre>
           <button class="submit-btn invis">Update</button>
   </div>
-
+<!-- adding the collaborators panel. -->
   <div class="collaborators">
     <div class="inner-container">
         <h1 class="collab-heading">Collaborators</h1>

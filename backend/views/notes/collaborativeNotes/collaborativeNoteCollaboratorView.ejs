@@ -340,7 +340,9 @@ body{
         })
 
 
-
+        const handleChange = async(content) =>{
+            socket.emit('noteInput', JSON.stringify(content))
+        }
 
 
 
