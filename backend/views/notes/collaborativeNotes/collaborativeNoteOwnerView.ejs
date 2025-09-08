@@ -375,7 +375,11 @@ body{
       submitBtn.classList.remove('invis')
       editBtn.textContent = "Cancel"
       }else{
-      location.reload()
+      submitBtn.classList.add('invis')
+      editBtn.textContent = "Edit"
+      document.querySelectorAll('pre').forEach(pre => {
+        pre.setAttribute('contenteditable', 'false')
+      })
       }
     })
 
