@@ -316,13 +316,13 @@ body{
         <% } %>
 </div>
         <label for="noteTitle">Title</label>
-        <pre class="noteTitle text-view" name="noteTitle"><%= note.title %></pre>
+        <pre class="noteTitle text-view" name="noteTitle" oninput="handleTitleChange(this.textContent)"><%= note.title %></pre>
   
         <label for="noteSummary">Summary</label>
-        <pre class="noteSummary text-view" name="noteSummary"><%= note.summary %></pre>
+        <pre class="noteSummary text-view" name="noteSummary" oninput="handleSummaryChange(this.textContent)"><%= note.summary %></pre>
 
         <label for="noteContent">Content</label>
-          <pre class="noteContent text-view" name="noteContent"><%= note.content %></pre>
+          <pre class="noteContent text-view" name="noteContent" oninput="handleContentChange(this.textContent)"><%= note.content %></pre>
           <button class="submit-btn invis">Update</button>
   </div>
 
@@ -339,6 +339,9 @@ body{
           console.log(roomId)
         })
 
+          const titlePre = document.querySelector('.noteTitle')
+          const summaryPre = document.querySelector('.noteSummary')
+          const contentPre = document.querySelector('.noteContent')
 
         const handleTitleChange = async(content) =>{
             socket.emit('noteTitleInput', JSON.stringify(content))
@@ -350,9 +353,25 @@ body{
             socket.emit('noteContentInput', JSON.stringify(content))
         }
 
+        socket.on('noteTitleChange', (data) => {
+          titlePre.textContent = JSON.parse(data)
+        })
 
+        socket.on('noteSummaryChange', (data) => {
+          summaryPre.textContent = JSON.parse(data)
+        })
+
+        socket.on('noteContentChange', (data) => {
+          contentPre.textContent = JSON.parse(data)
+        })
 
 </script>
+
+
+
+
+
+
 <%if(permissions === 'edit') {%>
   <script>
     const editBtn = document.querySelector('.edit-btn')

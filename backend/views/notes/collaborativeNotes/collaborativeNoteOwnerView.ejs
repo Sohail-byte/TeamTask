@@ -315,10 +315,10 @@ body{
         <pre class="noteTitle text-view" name="noteTitle" oninput="handleTitleChange(this.textContent)"><%= note.title %></pre>
   
         <label for="noteSummary">Summary</label>
-        <pre class="noteSummary text-view" name="noteSummary"><%= note.summary %></pre>
+        <pre class="noteSummary text-view" name="noteSummary" oninput="handleSummaryChange(this.textContent)"><%= note.summary %></pre>
 
         <label for="noteContent">Content</label>
-          <pre class="noteContent text-view" name="noteContent"><%= note.content %></pre>
+          <pre class="noteContent text-view" name="noteContent" oninput="handleContentChange(this.textContent)"><%= note.content %></pre>
           <button class="submit-btn invis">Update</button>
   </div>
 <!-- adding the collaborators panel. -->
@@ -358,7 +358,6 @@ body{
 
         const handleTitleChange = async(content) =>{
             socket.emit('noteTitleInput', JSON.stringify(content))
-            console.log(content)
         }
         const handleSummaryChange = async(content) =>{
             socket.emit('noteSummaryInput', JSON.stringify(content))
@@ -367,7 +366,21 @@ body{
             socket.emit('noteContentInput', JSON.stringify(content))
         }
 
+          const titlePre = document.querySelector('.noteTitle')
+          const summaryPre = document.querySelector('.noteSummary')
+          const contentPre = document.querySelector('.noteContent')
 
+        socket.on('noteTitleChange', (data) => {
+          titlePre.textContent = JSON.parse(data)
+        })
+
+        socket.on('noteSummaryChange', (data) => {
+          summaryPre.textContent = JSON.parse(data)
+        })
+
+        socket.on('noteContentChange', (data) => {
+          contentPre.textContent = JSON.parse(data)
+        })
 
 
 </script>

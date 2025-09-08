@@ -11,7 +11,6 @@ const sockethandling= async(io)=>{
 
     socket.on('noteTitleInput', (data) => {
         socket.broadcast.to(RoomId).emit('noteTitleChange', data)
-        console.log(data)
     })
 
 
