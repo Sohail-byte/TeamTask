@@ -329,6 +329,7 @@ body{
 </main>
 <script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
 <script>
+  //logic for sockets
         const socket = io()
         socket.on('connected', (msg) => {
           console.log(msg)
@@ -337,6 +338,12 @@ body{
         socket.on('joined-room', (roomId) => {
           console.log(roomId)
         })
+
+
+
+
+
+        
 </script>
 <%if(permissions === 'edit') {%>
   <script>

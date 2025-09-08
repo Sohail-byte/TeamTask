@@ -344,14 +344,25 @@ body{
 </main>
 <script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
 <script>
+  //logic for sockets
         const socket = io()
         socket.on('connected', (msg) => {
           console.log(msg)
         })
+        //joining a room with the notes id as the room id
         socket.emit('join-room', "<%= note.id %>")
         socket.on('joined-room', (roomId) => {
           console.log(roomId)
         })
+
+
+        const handleChange = async(content) =>{
+            socket.emit('noteInput', JSON.stringify(content))
+        }
+
+
+
+
 </script>
   <script>
     const editBtn = document.querySelector('.edit-btn')
