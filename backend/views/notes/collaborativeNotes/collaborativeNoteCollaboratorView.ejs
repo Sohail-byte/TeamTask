@@ -316,19 +316,20 @@ body{
         <% } %>
 </div>
         <label for="noteTitle">Title</label>
-        <pre class="noteTitle text-view" name="noteTitle" oninput="handleTitleChange(this.textContent)"><%= note.title %></pre>
+        <pre class="noteTitle text-view" name="noteTitle"><%= note.title %></pre>
   
         <label for="noteSummary">Summary</label>
-        <pre class="noteSummary text-view" name="noteSummary" oninput="handleSummaryChange(this.textContent)"><%= note.summary %></pre>
+        <pre class="noteSummary text-view" name="noteSummary"><%= note.summary %></pre>
 
         <label for="noteContent">Content</label>
-          <pre class="noteContent text-view" name="noteContent" oninput="handleContentChange(this.textContent)"><%= note.content %></pre>
+          <pre class="noteContent text-view" name="noteContent"><%= note.content %></pre>
           <button class="submit-btn invis">Update</button>
   </div>
 
 </main>
 <script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
 <script>
+  import lodash from "https://cdn.jsdelivr.net/npm/lodash@4.17.21/+esm"
   //logic for sockets
         const socket = io()
         socket.on('connected', (msg) => {
@@ -339,9 +340,10 @@ body{
           console.log(roomId)
         })
 
-          const titlePre = document.querySelector('.noteTitle')
-          const summaryPre = document.querySelector('.noteSummary')
-          const contentPre = document.querySelector('.noteContent')
+        const titlePre = document.querySelector('.noteTitle')
+        const summaryPre = document.querySelector('.noteSummary')
+        const contentPre = document.querySelector('.noteContent')
+
 
         const handleTitleChange = async(content) =>{
             socket.emit('noteTitleInput', JSON.stringify(content))
@@ -352,6 +354,36 @@ body{
         const handleContentChange = async(content) =>{
             socket.emit('noteContentInput', JSON.stringify(content))
         }
+
+        //making the debounced functions
+        const debouncedTitleChange = lodash.debounce(handleTitleChange, 400)
+        const debouncedSummaryChange = lodash.debounce(handleSummaryChange, 400)
+        const debouncedContentChange = lodash.debounce(handleContentChange, 500)
+
+
+
+
+
+
+        //adding event listeners to the PRE elements instead of using oninput for debouncing
+        titlePre.addEventListener('input', (e) => {
+            debouncedTitleChange(e.target.textContent)
+          })
+        
+        summaryPre.addEventListener('input', (e) => {
+            debouncedSummaryChange(e.target.textContent)
+        })
+
+        contentPre.addEventListener('input', (e) => {
+            debouncedContentChange(e.target.textContent)
+        })
+
+
+
+
+
+
+
 
         socket.on('noteTitleChange', (data) => {
           titlePre.textContent = JSON.parse(data)
@@ -364,7 +396,6 @@ body{
         socket.on('noteContentChange', (data) => {
           contentPre.textContent = JSON.parse(data)
         })
-
 </script>
 
 
