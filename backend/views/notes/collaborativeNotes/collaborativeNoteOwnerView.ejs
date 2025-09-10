@@ -312,13 +312,13 @@ body{
     
 
         <label for="noteTitle">Title</label>
-        <pre class="noteTitle text-view" name="noteTitle" oninput="handleTitleChange(this.textContent)"><%= note.title %></pre>
+        <pre class="noteTitle text-view" name="noteTitle"><%= note.title %></pre>
   
         <label for="noteSummary">Summary</label>
-        <pre class="noteSummary text-view" name="noteSummary" oninput="handleSummaryChange(this.textContent)"><%= note.summary %></pre>
+        <pre class="noteSummary text-view" name="noteSummary"><%= note.summary %></pre>
 
         <label for="noteContent">Content</label>
-          <pre class="noteContent text-view" name="noteContent" oninput="handleContentChange(this.textContent)"><%= note.content %></pre>
+          <pre class="noteContent text-view" name="noteContent"><%= note.content %></pre>
           <button class="submit-btn invis">Update</button>
   </div>
 <!-- adding the collaborators panel. -->
