@@ -38,27 +38,6 @@ const sockethandling= async(io)=>{
 
 
 
-        // const handleTitleChange = async(content) =>{
-        //     socket.emit('noteTitleInput', JSON.stringify(content))
-        // }
-        // const handleSummaryChange = async(content) =>{
-        //     socket.emit('noteSummaryInput', JSON.stringify(content))
-        // }
-        // const handleContentChange = async(content) =>{
-        //     socket.emit('noteContentInput', JSON.stringify(content))
-        // }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
