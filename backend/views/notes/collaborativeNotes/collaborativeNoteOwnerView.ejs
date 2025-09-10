@@ -343,7 +343,8 @@ body{
  </div>
 </main>
 <script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
-<script>
+<script type="module">
+  import lodash from "https://cdn.jsdelivr.net/npm/lodash@4.17.21/+esm"
   //logic for sockets
         const socket = io()
         socket.on('connected', (msg) => {
