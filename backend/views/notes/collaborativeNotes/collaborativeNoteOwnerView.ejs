@@ -366,9 +366,35 @@ body{
             socket.emit('noteContentInput', JSON.stringify(content))
         }
 
-          const titlePre = document.querySelector('.noteTitle')
-          const summaryPre = document.querySelector('.noteSummary')
-          const contentPre = document.querySelector('.noteContent')
+        const titlePre = document.querySelector('.noteTitle')
+        const summaryPre = document.querySelector('.noteSummary')
+        const contentPre = document.querySelector('.noteContent')
+
+
+        //making the debounced functions
+        const debouncedTitleChange = lodash.debounce(handleTitleChange, 400)
+        const debouncedSummaryChange = lodash.debounce(handleSummaryChange, 400)
+        const debouncedContentChange = lodash.debounce(handleContentChange, 500)
+
+
+
+
+        //adding event listeners to the PRE elements instead of using oninput for debouncing
+        titlePre.addEventListener('input', (e) => {
+            debouncedTitleChange(e.target.textContent)
+          })
+        
+        summaryPre.addEventListener('input', (e) => {
+            debouncedSummaryChange(e.target.textContent)
+        })
+
+        contentPre.addEventListener('input', (e) => {
+            debouncedContentChange(e.target.textContent)
+        })
+
+
+
+
 
         socket.on('noteTitleChange', (data) => {
           titlePre.textContent = JSON.parse(data)
