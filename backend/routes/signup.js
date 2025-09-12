@@ -15,7 +15,7 @@ signupRouter.get('/signup', (req, res) =>{
     try{
         const userFound = User.findOne({_id: userId})
         if(userFound){
-            return res.redirect('/login')
+            return res.redirect('/dashboard')
         }
     }catch(e){
         console.log(e)
