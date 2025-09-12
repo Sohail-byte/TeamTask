@@ -4,11 +4,23 @@ import bcrypt from "bcrypt"
 import Token from '../models/token.js'
 import crypto from 'crypto'
 import { sendEmailAuthentication } from '../utils/sendEmail.js'
+import decodeJWTToken from '../utils/decodeToken.js'
 const signupRouter = express.Router()
 
 //signup page
 //get request to load the signup page (signup.ejs)
 signupRouter.get('/signup', (req, res) =>{
+    const decodedToken = decodeJWTToken(req.cookies.token)
+    const userId = decodedToken?.payload?.userId
+    try{
+        const userFound = User.findOne({_id: userId})
+        if(userFound){
+            return res.redirect('/login')
+        }
+    }catch(e){
+        console.log(e)
+        res.status(500).json({e: 'something went wrong!'})
+    }
     res.render('user-forms/signup.ejs', {error: null});
     })
 
