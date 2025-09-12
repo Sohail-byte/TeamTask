@@ -74,6 +74,25 @@ notesRouter.get('/:id', isAuthenticated, async(req, res) => {
 })
 
 
+//for universal note view
+notesRouter.get('/:id/view', isAuthenticated, async(req, res) => {
+    const noteId = req.params.id
+    try{
+        const note = await Note.findOne({_id: noteId})
+        // console.log(note)
+        res.render('universalNoteView', {note})
+    }catch(e){
+        console.log(e)
+        res.status(500).json({msg: 'error while retrieving the note'})
+    }
+})
+
+
+
+
+
+
+
 // route for updating the note 
 notesRouter.put('/:id/update', isAuthenticated, async (req, res) => {
     const noteId = req.params.id

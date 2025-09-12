@@ -222,8 +222,9 @@
             }
             const generateHtml = (notes) => {
             notes.forEach(note => {
+              const id = note._id
             html+= `
-              <div class="project">
+              <div class="project" onclick="window.location.href='/notes/${id}/view'">
                 <div class="action-btns">
                   <a href="/notes/${note._id}" class="edit-btn">✏️</a>
                   <button onclick='
@@ -290,7 +291,7 @@
             const generateNoteOwnerHtml = (notes) => {
             notes.forEach(note => {
             notesOwnerHtml+= `
-              <div class="project">
+              <div class="project" onclick="console.log(${note._id})">
                 <div class="action-btns">
                   <a href="/collaborations/${note._id}" class="edit-btn">✏️</a>
                   <button type="button" onclick='
@@ -310,7 +311,7 @@
             notes.forEach(note => {
 
             notesCollaboratorHtml+= `
-              <div class="project">
+              <div class="project" onclick="console.log(${note._id})">
                 <div class="action-btns">
                   <a href="/collaborations/${note._id}" class="edit-btn">✏️</a>
                 </div>
@@ -380,13 +381,6 @@
           fetchCollaborativeProjects()
         }
 
-
-
-        
-        
-        
-        
-        
   </script>
 </body>
 </html>
