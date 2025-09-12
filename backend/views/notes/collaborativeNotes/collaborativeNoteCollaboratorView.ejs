@@ -194,10 +194,11 @@ body{
       transform: translateY(0);
     }
     .note-bar{
-    display: grid;
+     display: grid;
     grid-template-columns: 1fr auto 1fr;
     align-items: center;
     width: 100%;
+    margin-bottom: 20px;
     }
     .note-bar .edit-btn{
       grid-column: 3;
@@ -288,6 +289,18 @@ body{
   background-color: red;
   color: white;
 }
+.note-bar .back-btn{
+      grid-column: 1;
+    justify-self: start;
+    }
+     .back-btn:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(67,56,202,0.3);
+    }
+    .back-btn:active{
+      transform: translateY(0);
+    }
+    
     @media (max-width: 600px) {
       .editor-container {
         padding: 24px;
@@ -308,7 +321,10 @@ body{
 <body>
     <main>
   <div class="editor-container">
-    <div class="note-bar"><h1>Collaborative Note</h1>
+    
+    <div class="note-bar">
+      <button class="btn back-btn" onclick="window.location.href='/dashboard'">Back</button>
+      <h1>Collaborative Note</h1>
 
 
       <%if(permissions === 'edit') {%>
@@ -420,6 +436,7 @@ body{
       document.querySelectorAll('pre').forEach(pre => {
         pre.setAttribute('contenteditable', 'false')
       })
+      location.reload()
       }
     })
 

@@ -185,13 +185,7 @@ body{
     .edit-btn:active{
       transform: translateY(0);
     }
-     .back-btn:hover{
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(67,56,202,0.3);
-    }
-    .back-btn:active{
-      transform: translateY(0);
-    }
+    
     .note-bar{
     display: grid;
     grid-template-columns: 1fr auto 1fr;
@@ -207,7 +201,13 @@ body{
       grid-column: 1;
     justify-self: start;
     }
-
+     .back-btn:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(67,56,202,0.3);
+    }
+    .back-btn:active{
+      transform: translateY(0);
+    }
 
 
     .editor-container{
@@ -269,6 +269,7 @@ body{
       }else{
       submitBtn.classList.add('invis')
       editBtn.textContent = "Edit"
+      location.reload()
       document.querySelectorAll('pre').forEach(pre => {
         pre.setAttribute('contenteditable', 'false')
       })

@@ -10,6 +10,7 @@ const signupRouter = express.Router()
 //signup page
 //get request to load the signup page (signup.ejs)
 signupRouter.get('/signup', (req, res) =>{
+    if(req.cookies.token){
     const decodedToken = decodeJWTToken(req.cookies.token)
     const userId = decodedToken?.payload?.userId
     try{
@@ -21,6 +22,7 @@ signupRouter.get('/signup', (req, res) =>{
         console.log(e)
         res.status(500).json({e: 'something went wrong!'})
     }
+}
     res.render('user-forms/signup.ejs', {error: null});
     })
 

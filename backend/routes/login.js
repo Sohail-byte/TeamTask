@@ -5,17 +5,24 @@ import { createTokenPayload } from '../utils/auth.js'
 import Token from '../models/token.js'
 import { sendEmailAuthentication } from '../utils/sendEmail.js'
 import crypto from 'crypto'
+import decodeJWTToken from '../utils/decodeToken.js'
 const loginRouter = express.Router()
 
 //login page 
 loginRouter.get('/login', (req, res) =>{
-    if(req.cookies.token){
-        res.redirect('/dashboard')
-    }else{
-        res.render('user-forms/login.ejs', {error: null})
+   if(req.cookies.token){
+    const decodedToken = decodeJWTToken(req.cookies.token)
+    const userId = decodedToken?.payload?.userId
+    try{
+        const userFound = User.findOne({_id: userId})
+        if(userFound){
+            return res.redirect('/dashboard')
+        }
+    }catch(e){
+        console.log(e)
+        res.status(500).json({e: 'something went wrong!'})
     }
-    
-     
+}else res.render('user-forms/login.ejs', {error: null})
 } )
 
 loginRouter.post('/login', async (req, res) => {

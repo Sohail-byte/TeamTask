@@ -288,6 +288,17 @@ body{
   background-color: red;
   color: white;
 }
+.note-bar .back-btn{
+      grid-column: 1;
+    justify-self: start;
+    }
+     .back-btn:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(67,56,202,0.3);
+    }
+    .back-btn:active{
+      transform: translateY(0);
+    }
     @media (max-width: 600px) {
       .editor-container {
         padding: 24px;
@@ -308,7 +319,7 @@ body{
 <body>
     <main>
   <div class="editor-container">
-    <div class="note-bar"><h1>Collaborative Note</h1> <button class="btn edit-btn">Edit</button></div>
+    <div class="note-bar"><button class="btn back-btn" onclick="window.location.href='/dashboard'">Back</button><h1>Collaborative Note</h1> <button class="btn edit-btn">Edit</button></div>
     
 
         <label for="noteTitle">Title</label>
@@ -424,6 +435,7 @@ body{
       }else{
       submitBtn.classList.add('invis')
       editBtn.textContent = "Edit"
+      location.reload()
       document.querySelectorAll('pre').forEach(pre => {
         pre.setAttribute('contenteditable', 'false')
       })
