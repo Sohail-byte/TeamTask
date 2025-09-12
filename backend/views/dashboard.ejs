@@ -291,9 +291,8 @@
             const generateNoteOwnerHtml = (notes) => {
             notes.forEach(note => {
             notesOwnerHtml+= `
-              <div class="project" onclick="console.log(${note._id})">
+              <div class="project" onclick="window.location.href='/collaborations/${note._id}'">
                 <div class="action-btns">
-                  <a href="/collaborations/${note._id}" class="edit-btn">✏️</a>
                   <button type="button" onclick='
                   let result = confirm("Want to delete this note?");
                   if (result) {
@@ -311,10 +310,7 @@
             notes.forEach(note => {
 
             notesCollaboratorHtml+= `
-              <div class="project" onclick="console.log(${note._id})">
-                <div class="action-btns">
-                  <a href="/collaborations/${note._id}" class="edit-btn">✏️</a>
-                </div>
+              <div class="project" onclick="window.location.href='/collaborations/${note._id}'">
               <h3>${note.title}</h3>
               <p>${note.summary}</p>
               <p class="owner">Owner: ${note.ownerUsername}</p>
