@@ -222,11 +222,9 @@
             }
             const generateHtml = (notes) => {
             notes.forEach(note => {
-              const id = note._id
             html+= `
-              <div class="project" onclick="window.location.href='/notes/${id}/view'">
+              <div class="project" onclick="window.location.href='/notes/${note._id}'">
                 <div class="action-btns">
-                  <a href="/notes/${note._id}" class="edit-btn">✏️</a>
                   <button onclick='
                   let result = confirm("Want to delete this note?");
                   if (result) {
