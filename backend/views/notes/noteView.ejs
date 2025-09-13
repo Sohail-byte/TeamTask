@@ -176,7 +176,15 @@ body{
     }
     pre{
       font-family:Poppins, Inter, sans-serif;
-      text-wrap: auto;
+
+    overflow: auto;
+    border: 1px solid #ccc;
+    padding: 10px;
+    min-width: 200px;
+    min-height: 80px;
+    max-width: 100%;
+    white-space: pre-wrap; /* Allows text to wrap */
+    word-wrap: break-word; /* Breaks long words */
     }
     .edit-btn:hover{
       transform: translateY(-2px);
