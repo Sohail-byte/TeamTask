@@ -223,7 +223,7 @@
             const generateHtml = (notes) => {
             notes.forEach(note => {
             html+= `
-              <div class="project" onclick="window.location.href='/notes/${note._id}'">
+              <div class="project">
                 <div class="action-btns">
                   <button onclick='
                   let result = confirm("Want to delete this note?");
@@ -232,8 +232,10 @@
                   }                  
                   '>🗑️</button>
                 </div>
+                <div onclick="window.location.href='/notes/${note._id}'">
               <h3>${note.title}</h3>
               <p>${note.summary}</p>
+              </div>
                </div>`
             })
         } 
@@ -289,7 +291,7 @@
             const generateNoteOwnerHtml = (notes) => {
             notes.forEach(note => {
             notesOwnerHtml+= `
-              <div class="project" onclick="window.location.href='/collaborations/${note._id}'">
+              <div class="project">
                 <div class="action-btns">
                   <button type="button" onclick='
                   let result = confirm("Want to delete this note?");
@@ -298,8 +300,10 @@
                   }                  
                   '>🗑️</button>
                 </div>
+                <div onclick="window.location.href='/collaborations/${note._id}'">
               <h3>${note.title}</h3>
               <p>${note.summary}</p>
+              </div>
                </div>`
             })
         } 
