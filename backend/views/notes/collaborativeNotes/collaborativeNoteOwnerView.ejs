@@ -366,12 +366,10 @@ body{
   //logic for sockets
         const socket = io()
         socket.on('connected', (msg) => {
-          console.log(msg)
         })
         //joining a room with the notes id as the room id
         socket.emit('join-room', "<%= note.id %>")
         socket.on('joined-room', (roomId) => {
-          console.log(roomId)
         })
 
 

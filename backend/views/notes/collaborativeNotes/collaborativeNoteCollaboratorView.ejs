@@ -356,11 +356,9 @@ body{
   //logic for sockets
         const socket = io()
         socket.on('connected', (msg) => {
-          console.log(msg)
         })
         socket.emit('join-room', "<%= note.id %>")
         socket.on('joined-room', (roomId) => {
-          console.log(roomId)
         })
 
         const titlePre = document.querySelector('.noteTitle')
