@@ -15,7 +15,7 @@ emailAuthenticationRouter.get('/users/:id/verify/:token', async (req, res) => {
     if(authToken){
     await User.updateOne({_id: user._id}, {emailValidated: true})
     await authToken.deleteOne();
-    res.status(200).send('<h1>Email verrified successfully</h1>').redirect('/login')
+    res.status(200).send('<h1>Email verrified successfully</h1>')
     } else{
         return res.status(400).send({ message: "Invalid link" })
     }
