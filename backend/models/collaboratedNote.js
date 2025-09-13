@@ -35,9 +35,7 @@ const collaboratedNoteSchema = new mongoose.Schema({
                 default: 'view',
             },
             username:{
-                type: String,
-                unique: true,
-                sparse: true     
+                type: String   
             }
         }]
 })
