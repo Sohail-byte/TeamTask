@@ -47,7 +47,7 @@ loginRouter.post('/login', async (req, res) => {
         }else{
             console.log('token not found, creating new one')
             //check if token exists, if not, then create a new auth token for this. not the session/jwt token, but the email auth token
-            const existingAuthToken = await Token.findOneAndReplace({userId: userFound._id})
+            const existingAuthToken = await Token.findOne({userId: userFound._id})
             console.log(existingAuthToken)
             if(!existingAuthToken){
                 console.log('token not found, creating new one')
