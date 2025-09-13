@@ -86,7 +86,7 @@
       justify-content: center;
       align-items: center;
       flex-direction: column;
-      height: 400px;
+      height: auto;
       width: 50%;
       background-color: var(--bg-800);
     }
@@ -135,7 +135,15 @@
       color: #ffffff;
       text-decoration: none;
     }
-
+    .invalid{
+      color: red;
+    }
+    .valid{
+      color: green;
+    }
+    .invis{
+      display: none;
+    }
     /* Responsive */
     @media (max-width:1100px){
 
@@ -145,6 +153,7 @@
     @media (max-width:700px){
       .nav-actions{ gap:8px; }
     }
+
   </style>
 </head>
 <body>
@@ -163,14 +172,105 @@
         <form action="/signup" method="POST">
           <input autocomplete="off" type="text" name="userName" placeholder="Username" required pattern="^[a-zA-Z_]+$" title="Only letters and underscores are allowed."/><br/>
           <input autocomplete="off" type="email" name="email" placeholder="Email" required /><br/>
-          <input autocomplete="off" type="password" name="password" placeholder="Password" required /><br/>
-          <button type="submit" class="btn submit-btn">Register</button>
+          <input autocomplete="off" type="password" name="password" placeholder="Password" id="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"/><br/>
+          <button type="submit" class="btn submit-btn invis">Register</button>
           <a href="login">Already have an account? Log In.</a>
            <% if (error) { %>
     <div style="color: red;"><%= error %></div>
   <% } %>
         </form>
       </div>
+      <div id="message">
+  <h3>Password must contain the following:</h3>
+  <p id="letter" class="invalid">A <b>lowercase</b> letter</p>
+  <p id="capital" class="invalid">A <b>capital (uppercase)</b> letter</p>
+  <p id="number" class="invalid">A <b>number</b></p>
+  <p id="length" class="invalid">Minimum <b>8 characters</b></p>
+</div>
     </section>
+    <script>
+      let myInput = document.getElementById("password");
+let letter = document.getElementById("letter");
+let capital = document.getElementById("capital");
+let number = document.getElementById("number");
+let length = document.getElementById("length");
+
+// When the user clicks on the password field, show the message box
+myInput.onfocus = function() {
+  document.getElementById("message").style.display = "block";
+}
+
+// When the user clicks outside of the password field, hide the message box
+myInput.onblur = function() {
+  document.getElementById("message").style.display = "none";
+}
+
+// When the user starts to type something inside the password field
+myInput.onkeyup = function() {
+  // Validate lowercase letters
+  let lengthValidated = false
+  let numberValidated = false
+  let lowercaseValidated = false
+  let uppercaseValidated = false
+
+
+
+  let lowerCaseLetters = /[a-z]/g;
+  if(myInput.value.match(lowerCaseLetters)) {
+    letter.classList.remove("invalid");
+    letter.classList.add("valid");
+    lowercaseValidated = true
+  } else {
+    letter.classList.remove("valid");
+    letter.classList.add("invalid");
+    lowercaseValidated = false
+}
+
+  // Validate capital letters
+  let upperCaseLetters = /[A-Z]/g;
+  if(myInput.value.match(upperCaseLetters)) {
+    capital.classList.remove("invalid");
+    capital.classList.add("valid");
+    uppercaseValidated = true
+  } else {
+    capital.classList.remove("valid");
+    capital.classList.add("invalid");
+    uppercaseValidated = false
+  }
+
+  // Validate numbers
+  let numbers = /[0-9]/g;
+  if(myInput.value.match(numbers)) {
+    number.classList.remove("invalid");
+    number.classList.add("valid");
+    numberValidated = true
+  } else {
+    number.classList.remove("valid");
+    number.classList.add("invalid");
+    numberValidated = false
+  }
+
+  // Validate length
+  if(myInput.value.length >= 8) {
+    length.classList.remove("invalid");
+    length.classList.add("valid");
+    lengthValidated = true
+  } else {
+    length.classList.remove("valid");
+    length.classList.add("invalid");
+    lengthValidated = false
+  }
+
+    if(lengthValidated && numberValidated && lowercaseValidated && uppercaseValidated){
+      document.querySelector('.submit-btn').classList.remove('invis')
+    }else{
+      document.querySelector('.submit-btn').classList.add('invis')
+    }
+
+
+
+
+}
+    </script>
 </body>
 </html>
