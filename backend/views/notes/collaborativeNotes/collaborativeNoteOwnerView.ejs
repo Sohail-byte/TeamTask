@@ -120,7 +120,7 @@ body{
       font-family: Inter, sans-serif;
       transition: all 0.2s ease;
     }
-    pre{
+    textarea{
       background: rgba(255,255,255,0.02);
         padding: 16px;
         border-radius: 8px;
@@ -182,7 +182,7 @@ body{
     "col1 col2 col3"
     "col1 col2 col3"; 
     }
-    pre{
+    textarea{
       font-family:Poppins, Inter, sans-serif;
           overflow: auto;
     border: 1px solid #ccc;
@@ -330,13 +330,13 @@ body{
     
 
         <label for="noteTitle">Title</label>
-        <pre class="noteTitle text-view" name="noteTitle"><%= note.title %></pre>
+        <textarea class="noteTitle text-view" name="noteTitle" disabled><%= note.title %></textarea>
   
         <label for="noteSummary">Summary</label>
-        <pre class="noteSummary text-view" name="noteSummary"><%= note.summary %></pre>
+        <textarea class="noteSummary text-view" name="noteSummary" disabled><%= note.summary %></textarea>
 
         <label for="noteContent">Content</label>
-          <pre class="noteContent text-view" name="noteContent"><%= note.content %></pre>
+          <textarea class="noteContent text-view" name="noteContent" disabled><%= note.content %></textarea>
           <button class="submit-btn invis">Update</button>
   </div>
 <!-- adding the collaborators panel. -->
@@ -398,32 +398,57 @@ body{
 
         //adding event listeners to the PRE elements instead of using oninput for debouncing
         titlePre.addEventListener('input', (e) => {
-            debouncedTitleChange(e.target.textContent)
+            debouncedTitleChange(e.target.value)
           })
         
         summaryPre.addEventListener('input', (e) => {
-            debouncedSummaryChange(e.target.textContent)
+            debouncedSummaryChange(e.target.value)
         })
 
         contentPre.addEventListener('input', (e) => {
-            debouncedContentChange(e.target.textContent)
+            debouncedContentChange(e.target.value)
         })
 
 
 
 
-
+        //showing the changes from other usrs
         socket.on('noteTitleChange', (data) => {
-          titlePre.textContent = JSON.parse(data)
+          titlePre.value = JSON.parse(data)
         })
 
         socket.on('noteSummaryChange', (data) => {
-          summaryPre.textContent = JSON.parse(data)
+          summaryPre.value = JSON.parse(data)
         })
 
         socket.on('noteContentChange', (data) => {
-          contentPre.textContent = JSON.parse(data)
+          contentPre.value = JSON.parse(data)
         })
+
+         //trying/testing/implementing the conflict resolution method
+         //checking the input type and then taking action accordingly
+//         titlePre.addEventListener('input', (pre) => {
+//           const start = titlePre.selectionStart
+//           if(pre.inputType === 'insertText'){
+//             console.log('text inserted')
+//           }else if(pre.inputType === 'deleteContentBackward' || pre.inputType === 'deleteContentForward'){
+//             console.log('deleted text')
+//           }
+//         })
+
+//         function applyOperation(op) {
+//   if (op.type === "insert") {
+//     titlePre.value =
+//       titlePre.value.slice(0, op.index) + op.text + titlePre.value.slice(op.index);
+//   } else if (op.type === "delete") {
+//     titlePre.value =
+//       titlePre.value.slice(0, op.index) + titlePre.value.slice(op.index + op.length);
+//   }
+// }
+
+
+
+
 
 
 </script>
@@ -432,8 +457,8 @@ body{
     const submitBtn = document.querySelector('.submit-btn')
     editBtn.addEventListener('click', () => {
       if(editBtn.textContent==='Edit'){
-      document.querySelectorAll('pre').forEach(pre => {
-        pre.setAttribute('contenteditable', 'true')
+      document.querySelectorAll('textarea').forEach(textarea => {
+        textarea.disabled = false 
       })
       submitBtn.classList.remove('invis')
       editBtn.textContent = "Cancel"
@@ -441,8 +466,8 @@ body{
       submitBtn.classList.add('invis')
       editBtn.textContent = "Edit"
       location.reload()
-      document.querySelectorAll('pre').forEach(pre => {
-        pre.setAttribute('contenteditable', 'false')
+      document.querySelectorAll('textarea').forEach(textarea => {
+        textarea.disabled = true
       })
       }
     })
