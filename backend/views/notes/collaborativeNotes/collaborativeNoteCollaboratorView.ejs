@@ -120,7 +120,7 @@ body{
       font-family: Inter, sans-serif;
       transition: all 0.2s ease;
     }
-    pre{
+    textarea{
       background: rgba(255,255,255,0.02);
         padding: 16px;
         border-radius: 8px;
@@ -182,7 +182,7 @@ body{
     "col1 col2 col3"
     "col1 col2 col3"; 
     }
-    pre{
+    textarea{
       font-family:Poppins, Inter, sans-serif;
           overflow: auto;
     border: 1px solid #ccc;
@@ -339,13 +339,13 @@ body{
         <% } %>
 </div>
         <label for="noteTitle">Title</label>
-        <pre class="noteTitle text-view" name="noteTitle"><%= note.title %></pre>
+        <textarea class="noteTitle text-view" name="noteTitle"><%= note.title %></textarea>
   
         <label for="noteSummary">Summary</label>
-        <pre class="noteSummary text-view" name="noteSummary"><%= note.summary %></pre>
+        <textarea class="noteSummary text-view" name="noteSummary"><%= note.summary %></textarea>
 
         <label for="noteContent">Content</label>
-          <pre class="noteContent text-view" name="noteContent"><%= note.content %></pre>
+          <textarea class="noteContent text-view" name="noteContent"><%= note.content %></textarea>
           <button class="submit-btn invis">Update</button>
   </div>
 
@@ -362,7 +362,7 @@ body{
         })
 
         const titlePre = document.querySelector('.noteTitle')
-        const summaryPre = document.querySelector('.noteSummary')
+        const summatextarea = document.querySelector('.noteSummary')
         const contentPre = document.querySelector('.noteContent')
 
 
@@ -384,11 +384,11 @@ body{
 
 
 
-
-
         //adding event listeners to the PRE elements instead of using oninput for debouncing
         titlePre.addEventListener('input', (e) => {
+          // if(e.inputType === "insertText") console.log('inserted ')
             debouncedTitleChange(e.target.textContent)
+            
           })
         
         summaryPre.addEventListener('input', (e) => {
@@ -405,7 +405,7 @@ body{
 
 
 
-
+        //displaying the data recieved from others to the page
         socket.on('noteTitleChange', (data) => {
           titlePre.textContent = JSON.parse(data)
         })
@@ -417,6 +417,11 @@ body{
         socket.on('noteContentChange', (data) => {
           contentPre.textContent = JSON.parse(data)
         })
+
+       
+
+
+
 </script>
 
 
@@ -430,16 +435,16 @@ body{
     const submitBtn = document.querySelector('.submit-btn')
     editBtn.addEventListener('click', () => {
       if(editBtn.textContent==='Edit'){
-      document.querySelectorAll('pre').forEach(pre => {
-        pre.setAttribute('contenteditable', 'true')
+      document.querySelectorAll('textarea').forEach(textarea => {
+        textarea.setAttribute('contenteditable', 'true')
       })
       submitBtn.classList.remove('invis')
       editBtn.textContent = "Cancel"
       }else{
       submitBtn.classList.add('invis')
       editBtn.textContent = "Edit"
-      document.querySelectorAll('pre').forEach(pre => {
-        pre.setAttribute('contenteditable', 'false')
+      document.querySelectorAll('textarea').forEach(textarea => {
+        textarea.setAttribute('contenteditable', 'false')
       })
       location.reload()
       }
