@@ -379,40 +379,6 @@
           fetchCollaborativeProjects()
         }
 
-
-
-
-
-
-         const fetchCollaborativeProjectsPolling  = async()=> {
-          
-          try{
-            const res = await fetch('/collaborations');
-            const data = await res.json();
-            const notes = data.notesFoundCollaborator
-            let notesCollaboratorHtml = ''
-
-            notes.forEach(note => {
-            notesCollaboratorHtml+= `
-              <div class="project" onclick="window.location.href='/collaborations/${note._id}'">
-              <h3>${note.title}</h3>
-              <p>${note.summary}</p>
-              <p class="owner">Owner: ${note.ownerUsername}</p>
-               </div>`
-            })
-
-            notesCollaboratorContainer.innerHTML = notesCollaboratorHtml
-          }catch(e){
-            console.log(e)
-          }
-
-         }
-
-
-         setInterval(() => {
-          fetchCollaborativeProjectsPolling()
-          console.log('polled')
-         }, 15000)
   </script>
 </body>
 </html>

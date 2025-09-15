@@ -120,7 +120,7 @@ body{
       font-family: Inter, sans-serif;
       transition: all 0.2s ease;
     }
-    textarea{
+    pre{
       background: rgba(255,255,255,0.02);
         padding: 16px;
         border-radius: 8px;
@@ -182,7 +182,7 @@ body{
     "col1 col2 col3"
     "col1 col2 col3"; 
     }
-    textarea{
+    pre{
       font-family:Poppins, Inter, sans-serif;
           overflow: auto;
     border: 1px solid #ccc;
@@ -339,13 +339,13 @@ body{
         <% } %>
 </div>
         <label for="noteTitle">Title</label>
-        <textarea class="noteTitle text-view" name="noteTitle" disabled><%= note.title %></textarea>
+        <pre class="noteTitle text-view" name="noteTitle"><%= note.title %></pre>
   
         <label for="noteSummary">Summary</label>
-        <textarea class="noteSummary text-view" name="noteSummary" disabled><%= note.summary %></textarea>
+        <pre class="noteSummary text-view" name="noteSummary"><%= note.summary %></pre>
 
         <label for="noteContent">Content</label>
-          <textarea class="noteContent text-view" name="noteContent" disabled><%= note.content %></textarea>
+          <pre class="noteContent text-view" name="noteContent"><%= note.content %></pre>
           <button class="submit-btn invis">Update</button>
   </div>
 
@@ -384,19 +384,19 @@ body{
 
 
 
+
+
         //adding event listeners to the PRE elements instead of using oninput for debouncing
         titlePre.addEventListener('input', (e) => {
-          // if(e.inputType === "insertText") console.log('inserted ')
-            debouncedTitleChange(e.target.value)
-            
+            debouncedTitleChange(e.target.textContent)
           })
         
         summaryPre.addEventListener('input', (e) => {
-            debouncedSummaryChange(e.target.value)
+            debouncedSummaryChange(e.target.textContent)
         })
 
         contentPre.addEventListener('input', (e) => {
-            debouncedContentChange(e.target.value)
+            debouncedContentChange(e.target.textContent)
         })
 
 
@@ -405,23 +405,18 @@ body{
 
 
 
-        //displaying the data recieved from others to the page
+
         socket.on('noteTitleChange', (data) => {
-          titlePre.value = JSON.parse(data)
+          titlePre.textContent = JSON.parse(data)
         })
 
         socket.on('noteSummaryChange', (data) => {
-          summaryPre.value = JSON.parse(data)
+          summaryPre.textContent = JSON.parse(data)
         })
 
         socket.on('noteContentChange', (data) => {
-          contentPre.value = JSON.parse(data)
+          contentPre.textContent = JSON.parse(data)
         })
-
-       
-
-
-
 </script>
 
 
@@ -435,16 +430,16 @@ body{
     const submitBtn = document.querySelector('.submit-btn')
     editBtn.addEventListener('click', () => {
       if(editBtn.textContent==='Edit'){
-      document.querySelectorAll('textarea').forEach(textarea => {
-        textarea.disabled = false
+      document.querySelectorAll('pre').forEach(pre => {
+        pre.setAttribute('contenteditable', 'true')
       })
       submitBtn.classList.remove('invis')
       editBtn.textContent = "Cancel"
       }else{
       submitBtn.classList.add('invis')
       editBtn.textContent = "Edit"
-      document.querySelectorAll('textarea').forEach(textarea => {
-        textarea.disabled = true
+      document.querySelectorAll('pre').forEach(pre => {
+        pre.setAttribute('contenteditable', 'false')
       })
       location.reload()
       }
