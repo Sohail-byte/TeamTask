@@ -398,21 +398,15 @@ body{
 
         //adding event listeners to the PRE elements instead of using oninput for debouncing
         titlePre.addEventListener('input', (e) => {
-            debouncedTitleChange(e.target.textContent)
-  //            const start = textarea.selectionStart;
-  // if (e.inputType === "insertText") {
-  //   socket.emit("noteOp", { type: "insert", index: start - 1, text: e.data });
-  // } else if (e.inputType === "deleteContentBackward") {
-  //   socket.emit("noteOp", { type: "delete", index: start, length: 1 });
-  // }
+            debouncedTitleChange(e.target.value)
           })
         
         summaryPre.addEventListener('input', (e) => {
-            debouncedSummaryChange(e.target.textContent)
+            debouncedSummaryChange(e.target.value)
         })
 
         contentPre.addEventListener('input', (e) => {
-            debouncedContentChange(e.target.textContent)
+            debouncedContentChange(e.target.value)
         })
 
 
@@ -420,15 +414,15 @@ body{
 
         //showing the changes from other usrs
         socket.on('noteTitleChange', (data) => {
-          titlePre.textContent = JSON.parse(data)
+          titlePre.value = JSON.parse(data)
         })
 
         socket.on('noteSummaryChange', (data) => {
-          summaryPre.textContent = JSON.parse(data)
+          summaryPre.value = JSON.parse(data)
         })
 
         socket.on('noteContentChange', (data) => {
-          contentPre.textContent = JSON.parse(data)
+          contentPre.value = JSON.parse(data)
         })
 
          //trying/testing/implementing the conflict resolution method
