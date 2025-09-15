@@ -330,13 +330,13 @@ body{
     
 
         <label for="noteTitle">Title</label>
-        <textarea class="noteTitle text-view" name="noteTitle"><%= note.title %></textarea>
+        <textarea class="noteTitle text-view" name="noteTitle" disabled><%= note.title %></textarea>
   
         <label for="noteSummary">Summary</label>
-        <textarea class="noteSummary text-view" name="noteSummary"><%= note.summary %></textarea>
+        <textarea class="noteSummary text-view" name="noteSummary" disabled><%= note.summary %></textarea>
 
         <label for="noteContent">Content</label>
-          <textarea class="noteContent text-view" name="noteContent"><%= note.content %></textarea>
+          <textarea class="noteContent text-view" name="noteContent" disabled><%= note.content %></textarea>
           <button class="submit-btn invis">Update</button>
   </div>
 <!-- adding the collaborators panel. -->
@@ -458,7 +458,7 @@ body{
     editBtn.addEventListener('click', () => {
       if(editBtn.textContent==='Edit'){
       document.querySelectorAll('textarea').forEach(textarea => {
-        textarea.setAttribute('contenteditable', 'true')
+        textarea.disabled = false 
       })
       submitBtn.classList.remove('invis')
       editBtn.textContent = "Cancel"
@@ -467,7 +467,7 @@ body{
       editBtn.textContent = "Edit"
       location.reload()
       document.querySelectorAll('textarea').forEach(textarea => {
-        textarea.setAttribute('contenteditable', 'false')
+        textarea.disabled = true
       })
       }
     })
