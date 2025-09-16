@@ -417,6 +417,21 @@ body{
         socket.on('noteContentChange', (data) => {
           contentPre.textContent = JSON.parse(data)
         })
+
+
+
+        document.querySelectorAll('pre').forEach((pre) => {
+          pre.addEventListener('focus', () => {
+            console.log('user focused')
+          })
+          pre.addEventListener('blur', () => {
+            console.log('user unfocused')
+          })
+        })
+
+
+
+
 </script>
 
 
