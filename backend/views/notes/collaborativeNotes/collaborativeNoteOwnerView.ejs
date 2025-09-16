@@ -426,9 +426,12 @@ body{
         })
 
 
-        document.querySelector('pre').forEach((pre) => {
+        document.querySelectorAll('pre').forEach((pre) => {
           pre.addEventListener('focus', () => {
             console.log('user focused')
+          })
+          pre.addEventListener('blur', () => {
+            console.log('user unfocused')
           })
         })
 
