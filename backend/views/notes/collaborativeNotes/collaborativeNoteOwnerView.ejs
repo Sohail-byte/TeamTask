@@ -426,6 +426,15 @@ body{
         })
 
 
+        document.querySelector('pre').forEach((pre) => {
+          pre.addEventListener('focus', () => {
+            console.log('user focused')
+          })
+        })
+
+
+
+
 </script>
   <script>
     const editBtn = document.querySelector('.edit-btn')
