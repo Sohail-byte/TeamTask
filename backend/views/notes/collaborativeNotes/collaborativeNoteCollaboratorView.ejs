@@ -433,24 +433,30 @@ body{
           })
 
 
-          pre.addEventListener('blur', () => {
-            console.log('user typing')
-            socket.emit('typing')
-          })
+          // pre.addEventListener('blur', () => {
+          //   console.log('user typing')
+          //   socket.emit('typing')
+          // })
         })
+          // socket.on('lock-status', ({ lockedBy }) => {
+          //   document.querySelectorAll('pre').forEach(pre => {
+          //     pre.setAttribute('contenteditable', 'false')
+          //   })
+          // })
+
         socket.on('lock-status', ({ lockedBy }) => {
-          if (!lockedBy || lockedBy === userId) {
+          if(lockedBy){
             document.querySelectorAll('pre').forEach(pre => {
               pre.setAttribute('contenteditable', 'false')
+              console.log('locked by', lockedBy)
             })
-          } else {
-            document.querySelectorAll('pre').forEach(pre => {
+            }else {
+              document.querySelectorAll('pre').forEach(pre => {
               pre.setAttribute('contenteditable', 'true')
+              console.log('locked by', lockedBy)
             })
-          }
-        })
-
-
+            }
+          })
 
 
 

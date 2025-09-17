@@ -1,14 +1,15 @@
-const sockethandling= async(io)=>{
-    io.on('connection', (socket) => {
-    io.emit('connected', 'connected successfully')
-    let RoomId
-    socket.on('join-room', (roomId) => {
-        socket.join(roomId)
-        io.emit('joined-room', roomId)
-        RoomId = roomId
-    })
+let roomLocks = {}; // { roomId: { userId, timer } }
 
-    let roomLocks = {} //roomLock = { room : {socketId, userId}}
+const sockethandling = (io) => {
+  io.on('connection', (socket) => {
+    socket.emit('connected', 'connected successfully');
+    let RoomId;
+
+    socket.on('join-room', (roomId) => {
+      socket.join(roomId);
+      RoomId = roomId;
+      socket.emit('joined-room', roomId);
+    });
 
 
     socket.on('noteTitleInput', (data) => {
@@ -25,41 +26,51 @@ const sockethandling= async(io)=>{
         socket.broadcast.to(RoomId).emit('noteContentChange', data)
     })
 
-    socket.on('lock-request', () => {
-        const room = socket.rooms
-        if(!roomLocks[room] || roomLocks[room].userId === socket.id){
-            roomLocks[room] = {userId: socket.id}
-            socket.broadcast.to(room).emit('lock-status', {lockedBy: socket.userId})
-            startLockTimer(room, socket.userId)
-        }else {
-            socket.emit('lock-status', { lockedBy: roomLocks[RoomId].userId });
-        }
 
-    })
+
+    // ...note events...
+
+    socket.on('lock-request', () => {
+      if (!RoomId) return;
+
+      if (!roomLocks[RoomId] || roomLocks[RoomId].userId === socket.id) {
+        roomLocks[RoomId] = { userId: socket.id };
+        socket.broadcast.to(RoomId).emit('lock-status', { lockedBy: socket.id });
+        startLockTimer(io, RoomId, socket.id);
+      } else {
+        socket.emit('lock-status', { lockedBy: roomLocks[RoomId].userId });
+      }
+    });
 
     socket.on('release-lock', () => {
-    const room = socket.rooms
-    if (roomLocks[room] && roomLocks[room].userId === socket.userId) {
-      clearTimeout(roomLocks[room].timer);
-      delete roomLocks[room];
-      io.to(room).emit('lock-status', { lockedBy: null });
-    }
-    })
+      if (!RoomId) return;
+      if (roomLocks[RoomId]?.userId === socket.id) {
+        clearTimeout(roomLocks[RoomId].timer);
+        delete roomLocks[RoomId];
+        socket.broadcast.to(RoomId).emit('lock-status', { lockedBy: null });
+      }
+    });
 
     socket.on('typing', () => {
-    const room = socket.room;
-    if (roomLocks[room] && roomLocks[room].userId === socket.userId) {
-      resetLockTimer(room, socket.userId);
-    }
-    })
+      if (!RoomId) return;
+      if (roomLocks[RoomId]?.userId === socket.id) {
+        resetLockTimer(io, RoomId, socket.id);
+      }
+    });
 
-    
+    socket.on('disconnect', () => {
+      // Release lock if user disconnects
+      if (roomLocks[RoomId]?.userId === socket.id) {
+        clearTimeout(roomLocks[RoomId].timer);
+        delete roomLocks[RoomId];
+        socket.broadcast.to(RoomId).emit('lock-status', { lockedBy: null });
+      }
+    });
+  });
+};
 
-})
-}
-
-
-function startLockTimer(RoomId, userId) {
+function startLockTimer(io, RoomId, userId) {
+  if (!roomLocks[RoomId]) return;
   roomLocks[RoomId].timer = setTimeout(() => {
     if (roomLocks[RoomId]?.userId === userId) {
       delete roomLocks[RoomId];
@@ -68,39 +79,10 @@ function startLockTimer(RoomId, userId) {
   }, 20000); // 20 seconds
 }
 
-
-function resetLockTimer(RoomId, userId) {
+function resetLockTimer(io, RoomId, userId) {
+  if (!roomLocks[RoomId]) return;
   clearTimeout(roomLocks[RoomId].timer);
-  startLockTimer(RoomId, userId);
+  startLockTimer(io, RoomId, userId);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-export default sockethandling
+export default sockethandling;
