@@ -455,10 +455,12 @@ body{
               // console.log('locked by', lockedBy)
             })
             }else {
+              if(editBtn.textContent != 'Edit'){
               document.querySelectorAll('pre').forEach(pre => {
               pre.setAttribute('contenteditable', 'true')
               // console.log('locked by', lockedBy)
             })
+          }
             }
           })
           socket.on('user-typing', () => {
