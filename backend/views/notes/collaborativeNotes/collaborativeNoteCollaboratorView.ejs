@@ -317,6 +317,9 @@ body{
         header{ padding:12px 16px }
       }
     }
+    .typing-indicator{
+      display: none;
+    }
   </style>
 </head>
 <body>
@@ -347,6 +350,7 @@ body{
         <label for="noteContent">Content</label>
           <pre class="noteContent text-view" name="noteContent"><%= note.content %></pre>
           <button class="submit-btn invis">Update</button>
+          <div class="typing-indicator"><p>A user is typing...</p></div>
   </div>
 
 </main>
@@ -431,34 +435,36 @@ body{
             console.log('user unfocused, unlock request sent')
             socket.emit('release-lock')
           })
-
-
-          // pre.addEventListener('blur', () => {
-          //   console.log('user typing')
-          //   socket.emit('typing')
-          // })
         })
-          // socket.on('lock-status', ({ lockedBy }) => {
-          //   document.querySelectorAll('pre').forEach(pre => {
-          //     pre.setAttribute('contenteditable', 'false')
-          //   })
-          // })
+
 
         socket.on('lock-status', ({ lockedBy }) => {
           if(lockedBy){
+
             document.querySelectorAll('pre').forEach(pre => {
               pre.setAttribute('contenteditable', 'false')
               console.log('locked by', lockedBy)
-            })
-            }else {
+          })
+          }else {
+          if(editBtn.textContent != 'Edit'){
               document.querySelectorAll('pre').forEach(pre => {
               pre.setAttribute('contenteditable', 'true')
               console.log('locked by', lockedBy)
             })
+          }
             }
           })
 
+           socket.on('user-typing', () => {
+            console.log('a user is typing')
+            document.querySelector('.typing-indicator').style.display = 'unset'
 
+          })
+          socket.on('user-stopped-typing', () => {
+            console.log('user stopped typing')
+            document.querySelector('.typing-indicator').style.display = 'none'
+            
+          })
 
 
 </script>

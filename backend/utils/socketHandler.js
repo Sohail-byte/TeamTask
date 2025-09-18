@@ -56,7 +56,7 @@ const sockethandling = (io) => {
     socket.on('typing', () => {
       if (!RoomId) return
       if (roomLocks[RoomId]?.userId === socket.id) {
-        resetLockTimer(io, RoomId, socket.id)
+        resetLockTimer(io, RoomId, socket.id, socket)
       }
     });
 
@@ -77,6 +77,8 @@ function startLockTimer(io, RoomId, userId) {
     if (roomLocks[RoomId]?.userId === userId) {
       delete roomLocks[RoomId]
       io.to(RoomId).emit('lock-status', { lockedBy: null })
+      io.to(RoomId).emit('user-stopped-typing')
+
     }
   }, 20000)// 20 seconds
 }

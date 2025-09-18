@@ -315,6 +315,9 @@ body{
         header{ padding:12px 16px }
       }
     }
+    .typing-indicator{
+      display: none;
+    }
   </style>
 </head>
 <body>
@@ -338,6 +341,7 @@ body{
         <label for="noteContent">Content</label>
           <pre class="noteContent text-view" name="noteContent"><%= note.content %></pre>
           <button class="submit-btn invis">Update</button>
+          <div class="typing-indicator"><p>A user is typing...</p></div>
   </div>
 <!-- adding the collaborators panel. -->
   <div class="collaborators">
@@ -459,10 +463,12 @@ body{
           })
           socket.on('user-typing', () => {
             console.log('a user is typing')
+            document.querySelector('.typing-indicator').style.display = 'unset'
 
           })
           socket.on('user-stopped-typing', () => {
             console.log('user stopped typing')
+            document.querySelector('.typing-indicator').style.display = 'none'
             
           })
 
