@@ -423,8 +423,7 @@ body{
         })
 
 
-
-                document.querySelectorAll('pre').forEach((pre) => {
+          document.querySelectorAll('pre').forEach((pre) => {
           pre.addEventListener('focus', () => {
             console.log('user focused, lock request sent')
             socket.emit('lock-request')
@@ -466,7 +465,7 @@ body{
             
           })
 
-
+            
 </script>
 
 
