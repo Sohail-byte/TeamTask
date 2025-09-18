@@ -432,7 +432,7 @@ body{
 
         document.querySelectorAll('pre').forEach((pre) => {
           pre.addEventListener('focus', () => {
-            console.log('user focused, lock request sent')
+            // console.log('user focused, lock request sent')
             socket.emit('lock-request')
           })
 
@@ -452,22 +452,22 @@ body{
           if(lockedBy){
             document.querySelectorAll('pre').forEach(pre => {
               pre.setAttribute('contenteditable', 'false')
-              console.log('locked by', lockedBy)
+              // console.log('locked by', lockedBy)
             })
             }else {
               document.querySelectorAll('pre').forEach(pre => {
               pre.setAttribute('contenteditable', 'true')
-              console.log('locked by', lockedBy)
+              // console.log('locked by', lockedBy)
             })
             }
           })
           socket.on('user-typing', () => {
-            console.log('a user is typing')
+            // console.log('a user is typing')
             document.querySelector('.typing-indicator').style.display = 'unset'
 
           })
           socket.on('user-stopped-typing', () => {
-            console.log('user stopped typing')
+            // console.log('user stopped typing')
             document.querySelector('.typing-indicator').style.display = 'none'
             
           })
