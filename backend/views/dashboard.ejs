@@ -97,7 +97,7 @@
     /* Projects */
     .projects {
       display:grid;
-      grid-template-columns:repeat(3, 1fr);
+      grid-template-columns:repeat(5, 1fr);
       gap:18px;
     }
     .project {
@@ -109,6 +109,8 @@
       transition: all .3s;
       cursor: pointer;
       max-height:150px;
+      max-width: 280px;
+      overflow: ellipsis;
     }
     .project:hover{
       transform: scale(105%);
@@ -154,6 +156,16 @@
       .projects{ grid-template-columns: 1fr; }
       header{ padding:12px 16px }
       main{ padding:20px 16px }
+    }
+    h3{
+      white-space: nowrap; 
+      overflow: hidden;  
+      text-overflow: ellipsis;
+    }
+    .summary{
+      white-space: nowrap; 
+      overflow: hidden;  
+      text-overflow: ellipsis;
     }
   </style>
 </head>
@@ -234,7 +246,7 @@
                 </div>
                 <div onclick="window.location.href='/notes/${note._id}'">
               <h3>${note.title}</h3>
-              <p>${note.summary}</p>
+              <p class="summary">${note.summary}</p>
               </div>
                </div>`
             })
@@ -302,7 +314,7 @@
                 </div>
                 <div onclick="window.location.href='/collaborations/${note._id}'">
               <h3>${note.title}</h3>
-              <p>${note.summary}</p>
+              <p class="summary">${note.summary}</p>
               </div>
                </div>`
             })
@@ -314,7 +326,7 @@
             notesCollaboratorHtml+= `
               <div class="project" onclick="window.location.href='/collaborations/${note._id}'">
               <h3>${note.title}</h3>
-              <p>${note.summary}</p>
+              <p class="summary">${note.summary}</p>
               <p class="owner">Owner: ${note.ownerUsername}</p>
                </div>`
             })
@@ -391,7 +403,7 @@
             notesCollaboratorHtml+= `
               <div class="project" onclick="window.location.href='/collaborations/${note._id}'">
               <h3>${note.title}</h3>
-              <p>${note.summary}</p>
+              <p class="summary">${note.summary}</p>
               <p class="owner">Owner: ${note.ownerUsername}</p>
                </div>`
             })
