@@ -34,55 +34,57 @@ const sockethandling = (io) => {
       if (!RoomId) return;
 
       if (!roomLocks[RoomId] || roomLocks[RoomId].userId === socket.id) {
-        roomLocks[RoomId] = { userId: socket.id };
-        socket.broadcast.to(RoomId).emit('lock-status', { lockedBy: socket.id });
-        startLockTimer(io, RoomId, socket.id);
+        roomLocks[RoomId] = { userId: socket.id }
+        socket.broadcast.to(RoomId).emit('lock-status', { lockedBy: socket.id })
+        socket.broadcast.to(RoomId).emit('user-typing')
+        startLockTimer(io, RoomId, socket.id)
       } else {
-        socket.emit('lock-status', { lockedBy: roomLocks[RoomId].userId });
+        socket.emit('lock-status', { lockedBy: roomLocks[RoomId].userId })
       }
-    });
+    })
 
     socket.on('release-lock', () => {
-      if (!RoomId) return;
+      if (!RoomId) return
       if (roomLocks[RoomId]?.userId === socket.id) {
-        clearTimeout(roomLocks[RoomId].timer);
-        delete roomLocks[RoomId];
-        socket.broadcast.to(RoomId).emit('lock-status', { lockedBy: null });
+        clearTimeout(roomLocks[RoomId].timer)
+        delete roomLocks[RoomId]
+        socket.broadcast.to(RoomId).emit('lock-status', { lockedBy: null })
+        socket.broadcast.to(RoomId).emit('user-stopped-typing')
       }
-    });
+    })
 
     socket.on('typing', () => {
-      if (!RoomId) return;
+      if (!RoomId) return
       if (roomLocks[RoomId]?.userId === socket.id) {
-        resetLockTimer(io, RoomId, socket.id);
+        resetLockTimer(io, RoomId, socket.id)
       }
     });
 
     socket.on('disconnect', () => {
       // Release lock if user disconnects
       if (roomLocks[RoomId]?.userId === socket.id) {
-        clearTimeout(roomLocks[RoomId].timer);
-        delete roomLocks[RoomId];
-        socket.broadcast.to(RoomId).emit('lock-status', { lockedBy: null });
+        clearTimeout(roomLocks[RoomId].timer)
+        delete roomLocks[RoomId]
+        socket.broadcast.to(RoomId).emit('lock-status', { lockedBy: null })
       }
-    });
-  });
-};
+    })
+  })
+}
 
 function startLockTimer(io, RoomId, userId) {
-  if (!roomLocks[RoomId]) return;
+  if (!roomLocks[RoomId]) return
   roomLocks[RoomId].timer = setTimeout(() => {
     if (roomLocks[RoomId]?.userId === userId) {
-      delete roomLocks[RoomId];
-      io.to(RoomId).emit('lock-status', { lockedBy: null });
+      delete roomLocks[RoomId]
+      io.to(RoomId).emit('lock-status', { lockedBy: null })
     }
-  }, 20000); // 20 seconds
+  }, 20000)// 20 seconds
 }
 
 function resetLockTimer(io, RoomId, userId) {
   if (!roomLocks[RoomId]) return;
-  clearTimeout(roomLocks[RoomId].timer);
-  startLockTimer(io, RoomId, userId);
+  clearTimeout(roomLocks[RoomId].timer)
+  startLockTimer(io, RoomId, userId)
 }
 
 export default sockethandling;

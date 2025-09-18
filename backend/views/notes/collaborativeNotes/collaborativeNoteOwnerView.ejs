@@ -457,7 +457,14 @@ body{
             })
             }
           })
+          socket.on('user-typing', () => {
+            console.log('a user is typing')
 
+          })
+          socket.on('user-stopped-typing', () => {
+            console.log('user stopped typing')
+            
+          })
 
 
 </script>
