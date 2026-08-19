@@ -28,6 +28,8 @@ app.use(express.static('public'))
 //rendering the landing page
 //I have used EJS and server side rendering, not because I planned for it,
 //but because i didnt know frontend and this seemed easy
+//hehe im good at making bad decisions
+
 app.get('/', (req, res) => {
     res.render('landing-page.ejs')
 })
